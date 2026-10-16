@@ -48,6 +48,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
 .cell{min-height:52px;border-radius:12px;font:inherit;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #2F6F62;background:#E3F2EC;color:#24584D;cursor:pointer}
 .cell[aria-pressed="true"]{background:#2F6F62;color:#FFFFFF}
 .cell:disabled{border:0;background:#E4E8E7;color:#6B7B86;cursor:not-allowed}
+.cell.full:disabled{background:#FBE1D8;color:#9A3B24}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-weight:700;font-size:15px}
 .field input,.field select,.field textarea{min-height:48px;border:1px solid #B8C9C4;border-radius:12px;padding:0 14px;font:inherit;background:#FFFFFF}
@@ -106,6 +107,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
 <div class="legend">
 <span><i class="sw" style="border:2px solid #2F6F62;background:#E3F2EC"></i>Müsait</span>
 <span><i class="sw" style="background:#2F6F62"></i>Seçili</span>
+<span><i class="sw" style="background:#FBE1D8"></i>Dolu</span>
 <span><i class="sw" style="background:#E4E8E7"></i>Geçmiş / Tatil</span>
 </div>
 <div class="tablebox"><div class="grid" id="grid"></div></div>
@@ -181,6 +183,12 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   // Resmi tatiller (AA-GG). Dini bayram günlerini her yıl tarihleriyle ekleyin: 'YYYY-AA-GG'
   var HOLIDAYS = ['01-01', '04-23', '05-01', '05-19', '07-15', '08-30', '10-29'];
   var HOLIDAY_DATES = [];
+  // DOLU SAATLER: Telefonla / WhatsApp'la alınan ya da onaylanan randevuları buraya ekleyin.
+  //   Tek saat:   '2026-10-23 13:00'      Bütün gün:   '2026-10-24'
+  // Siteye yalnızca "Dolu" yazar. Velinin adını buraya YAZMAYIN: bu dosyayı herkes görebilir.
+  // Geçmiş tarihleri silmeye gerek yok; kendiliğinden görünmez olur.
+  var DOLU = [
+  ];
   var SERVICES = [
     { id: 'on', title: 'Ön Görüşme', desc: '30 dk · Yalnızca veliyle; çocuğunuzu getirmenize gerek yok', free: true, adult: true },
     { id: 'terapi', title: 'Bireysel Terapi Seansı', desc: '45 dk · Çocuklarla her zaman yüz yüze, birebir', price: '1.500 TL' },
@@ -239,12 +247,13 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       html += '<div class="hl">' + h + '–' + end + '</div>';
       days.forEach(function (d) {
         var start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), parseInt(h, 10));
-        var hol = isHoliday(d), past = start <= now;
+        var ymd = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        var hol = isHoliday(d), past = start <= now, full = DOLU.indexOf(ymd + ' ' + h) >= 0 || DOLU.indexOf(ymd) >= 0;
         var key = d.toDateString() + ' ' + h;
         var on = st.pick && st.pick.key === key;
-        var label = hol ? 'Tatil' : past ? '—' : on ? 'Seçildi' : 'Müsait';
+        var label = hol ? 'Tatil' : past ? '—' : full ? 'Dolu' : on ? 'Seçildi' : 'Müsait';
         var when = d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + DAYS[d.getDay()] + ', ' + h + '–' + end;
-        html += '<button type="button" class="cell" data-key="' + esc(key) + '" data-when="' + esc(when) + '"' + (hol || past ? ' disabled' : '') + ' aria-pressed="' + !!on + '" aria-label="' + esc(when + ', ' + label) + '">' + label + '</button>';
+        html += '<button type="button" class="cell' + (full && !hol && !past ? ' full' : '') + '" data-key="' + esc(key) + '" data-when="' + esc(when) + '"' + (hol || past || full ? ' disabled' : '') + ' aria-pressed="' + !!on + '" aria-label="' + esc(when + ', ' + label) + '">' + label + '</button>';
       });
     });
     $('grid').innerHTML = html;
