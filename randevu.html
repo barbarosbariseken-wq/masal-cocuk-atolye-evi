@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Online Randevu · Masal Çocuk Bakım Evi</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Masal Çocuk Bakım Evi'nden ön görüşme, bireysel terapi veya ebeveyn görüşmesi için randevu alın.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&amp;family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&amp;display=swap">
+<style>
+body{margin:0;background:#F3F7F6;color:#1B2B3A;font-family:'Nunito Sans',system-ui,sans-serif;font-size:17px;line-height:1.6}
+a{color:#1F3A5F}a:hover{color:#0F223B}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+.f{font-family:'Fredoka',sans-serif;font-weight:600}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+h1{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:clamp(32px,5vw,44px);line-height:1.1}
+h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
+.steps{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.steps li{border-radius:14px;padding:10px 12px;display:flex;flex-direction:column;background:#FFFFFF;color:#5C6B75}
+.steps li.cur{background:#2F6F62;color:#FFFFFF}
+.steps li.done{background:#CFE6DE;color:#24584D}
+.steps .n{font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px}
+.steps .l{font-size:14px;font-weight:700}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.card{text-align:left;border-radius:20px;padding:20px;font:inherit;color:#1B2B3A;display:flex;flex-direction:column;gap:4px;cursor:pointer;min-height:44px;border:2px solid #DCE6E3;background:#FFFFFF}
+.card[aria-pressed="true"]{border-color:#2F6F62;background:#DDF0E9;box-shadow:0 0 0 3px #2F6F6233}
+.card .t{font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px}
+.card .d{font-size:15px;color:#3D4F5C}
+.card .p{font-size:14px;font-weight:700;color:#24584D}
+.badge{align-self:flex-start;margin-top:4px;font-size:13px;font-weight:700;color:#24584D;background:#CFE6DE;padding:2px 10px;border-radius:999px}
+.btn{min-height:52px;padding:0 28px;border-radius:999px;border:0;font:inherit;font-weight:700;font-size:17px;background:#2F6F62;color:#FFFFFF;cursor:pointer}
+.btn:disabled{background:#C9D3D0;color:#4A5D6B;cursor:not-allowed}
+.btn-o{min-height:48px;padding:0 22px;border-radius:999px;border:2px solid #2F6F62;background:#FFFFFF;color:#2F6F62;font:inherit;font-weight:700;cursor:pointer}
+.nav{min-height:44px;padding:0 16px;border-radius:999px;font:inherit;font-weight:700;font-size:15px;border:2px solid #2F6F62;background:#FFFFFF;color:#2F6F62;cursor:pointer}
+.nav:disabled{border-color:#DCE6E3;color:#8A979F;cursor:not-allowed}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-size:14px;color:#3D4F5C}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:14px;border-radius:4px;display:inline-block}
+.tablebox{overflow-x:auto;background:#FFFFFF;border-radius:24px;padding:16px}
+.grid{min-width:760px;display:grid;grid-template-columns:120px repeat(6,minmax(0,1fr));gap:8px}
+.dh{border-radius:14px;padding:8px;display:flex;flex-direction:column;align-items:center;background:#E3F2EC}
+.dh.off{background:#F1F3F2;color:#6B7B86}
+.dh .w{font-size:13px;font-weight:700}.dh .d{font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px;line-height:1.1}
+.hl{font-weight:700;font-size:15px;display:flex;align-items:center;padding:0 4px}
+.cell{min-height:52px;border-radius:12px;font:inherit;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center;border:2px solid #2F6F62;background:#E3F2EC;color:#24584D;cursor:pointer}
+.cell[aria-pressed="true"]{background:#2F6F62;color:#FFFFFF}
+.cell:disabled{border:0;background:#E4E8E7;color:#6B7B86;cursor:not-allowed}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-weight:700;font-size:15px}
+.field input,.field select,.field textarea{min-height:48px;border:1px solid #B8C9C4;border-radius:12px;padding:0 14px;font:inherit;background:#FFFFFF}
+.field textarea{padding:12px 14px;resize:vertical}
+.err{color:#A12A2A;font-size:14px;font-weight:700}
+.summary{background:#1F3A5F;color:#FFFFFF;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:14px}
+.summary .k{font-size:13px;color:#C7D4E4}
+.summary .v{font-weight:700}
+.iban{background:#FFF3DA;border-radius:18px;padding:18px 22px;max-width:36rem;display:flex;flex-direction:column;gap:6px;text-align:left}
+.mono{font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:700;letter-spacing:.02em}
+.copy{min-height:44px;padding:0 16px;border-radius:999px;border:2px solid #2F6F62;font:inherit;font-size:15px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;background:#FFFFFF;color:#2F6F62}
+.copy.ok{background:#2F6F62;color:#FFFFFF}
+</style>
+</head>
+<body>
+<header style="background:#FFFFFF;border-bottom:1px solid #DCE6E3">
+<div class="wrap" style="padding-top:16px;padding-bottom:16px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px">
+<a href="index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:#1B2B3A">
+<svg width="48" height="48" viewBox="0 0 120 120" aria-hidden="true"><g stroke="#F2A93B" stroke-width="7" stroke-linecap="round"><line x1="60" y1="12" x2="60" y2="23"></line><line x1="36" y1="32" x2="29" y2="25"></line><line x1="84" y1="32" x2="91" y2="25"></line></g><circle cx="60" cy="56" r="22" fill="#FFC24D"></circle><path d="M8 84 C16 72 28 70 36 78 C44 72 54 74 60 82 L60 108 C50 98 28 96 8 108 Z" fill="#2F6F62"></path><path d="M112 84 C104 72 92 70 84 78 C76 72 66 74 60 82 L60 108 C70 98 92 96 112 108 Z" fill="#24584D"></path><path d="M60 82 V108" stroke="#FFFFFF" stroke-width="3"></path></svg>
+<span style="display:flex;flex-direction:column;line-height:1.1"><span class="f" style="font-size:22px">Masal</span><span style="font-size:13px;color:#4A5D6B">Çocuk Bakım Evi</span></span>
+</a>
+<a href="index.html" style="font-weight:700;font-size:16px;min-height:44px;display:inline-flex;align-items:center">← Ana sayfaya dön</a>
+</div>
+</header>
+
+<main class="wrap" style="padding-top:48px;padding-bottom:96px;display:flex;flex-direction:column;gap:32px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<h1>Online Randevu</h1>
+<p style="margin:0;color:#3D4F5C">Seans saatlerimiz hafta içi ve cumartesi 13:00–19:00 arası. Programdan boş bir saate tıklayın, randevunuzu oluşturun.</p>
+</div>
+
+<ol class="steps" aria-label="Adımlar" id="steps"></ol>
+
+<!-- ADIM 1 -->
+<section id="s1" style="display:flex;flex-direction:column;gap:28px">
+<div style="display:flex;flex-direction:column;gap:12px">
+<h2>Ne için randevu almak istiyorsunuz?</h2>
+<div class="cards" id="services"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:12px">
+<h2>Görüşme şekli</h2>
+<div class="cards" id="modes"></div>
+</div>
+<div style="display:flex;justify-content:flex-end"><button type="button" class="btn" id="next1" disabled>Programı gör →</button></div>
+</section>
+
+<!-- ADIM 2 -->
+<section id="s2" hidden style="display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px">
+<h2>Haftalık Program · <span id="weekLabel"></span></h2>
+<div style="display:flex;gap:8px">
+<button type="button" class="nav" id="prevWeek">← Önceki</button>
+<button type="button" class="nav" id="nextWeek">Sonraki →</button>
+</div>
+</div>
+<div class="legend">
+<span><i class="sw" style="border:2px solid #2F6F62;background:#E3F2EC"></i>Müsait</span>
+<span><i class="sw" style="background:#2F6F62"></i>Seçili</span>
+<span><i class="sw" style="background:#E4E8E7"></i>Geçmiş / Tatil</span>
+</div>
+<div class="tablebox"><div class="grid" id="grid"></div></div>
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px">
+<button type="button" class="btn-o" id="back2">← Geri</button>
+<span id="picked" style="font-weight:700;color:#24584D"></span>
+<button type="button" class="btn" id="next2" disabled>Bu saati rezerve et →</button>
+</div>
+</section>
+
+<!-- ADIM 3 -->
+<section id="s3" hidden style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+<form id="form" novalidate style="flex:2 1 380px;min-width:0;background:#FFFFFF;border-radius:24px;padding:28px;display:flex;flex-direction:column;gap:16px">
+<h2>Bilgileriniz</h2>
+<div class="field"><label for="r-veli">Adınız Soyadınız</label><input id="r-veli" type="text" autocomplete="name" required></div>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<div class="field" style="flex:1 1 180px"><label for="r-tel">Telefon</label><input id="r-tel" type="tel" autocomplete="tel" required></div>
+<div class="field" style="flex:1 1 180px"><label for="r-mail">E-posta (isteğe bağlı)</label><input id="r-mail" type="email" autocomplete="email"></div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:16px">
+<div class="field" style="flex:2 1 200px"><label for="r-cocuk">Çocuğunuzun adı</label><input id="r-cocuk" type="text"></div>
+<div class="field" style="flex:1 1 100px"><label for="r-yas">Yaşı</label><select id="r-yas"><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+</div>
+<div class="field"><label for="r-not">Eklemek istedikleriniz (isteğe bağlı)</label><textarea id="r-not" rows="3"></textarea></div>
+<label style="display:flex;gap:10px;align-items:flex-start;font-size:14px;color:#3D4F5C"><input id="r-kvkk" type="checkbox" style="width:20px;height:20px;margin-top:2px;flex:0 0 auto">Bilgilerimin randevu için işlenmesini ve benimle iletişime geçilmesini onaylıyorum.</label>
+<span class="err" id="err" hidden></span>
+</form>
+<aside class="summary" style="flex:1 1 260px;min-width:0">
+<h2 style="font-size:22px">Randevu özeti</h2>
+<div><div class="k">Hizmet</div><div class="v" id="sum-service"></div></div>
+<div><div class="k">Görüşme şekli</div><div class="v" id="sum-mode"></div></div>
+<div><div class="k">Tarih ve saat</div><div class="v" id="sum-when"></div></div>
+<div id="sum-price-row" style="border-top:1px solid #3E5A80;padding-top:14px;display:flex;justify-content:space-between;align-items:baseline;gap:8px"><span style="font-size:15px">Seans ücreti</span><span class="f" style="font-size:24px;color:#FFD27A" id="sum-price"></span></div>
+<div style="border-top:1px solid #3E5A80;padding-top:14px"><div class="k">Ödeme</div><div style="font-size:15px" id="sum-pay"></div></div>
+<button type="button" id="confirm" style="min-height:52px;border:0;border-radius:999px;background:#FFD27A;color:#1B2B3A;font:inherit;font-weight:700;font-size:17px;cursor:pointer">Randevuyu oluştur</button>
+<button type="button" id="back3" style="min-height:44px;border:0;background:transparent;color:#FFFFFF;font:inherit;font-weight:700;cursor:pointer;text-decoration:underline">← Saati değiştir</button>
+</aside>
+</section>
+
+<!-- ADIM 4 -->
+<section id="s4" hidden style="background:#FFFFFF;border-radius:28px;padding:40px 28px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px">
+<svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#2F6F62" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M8 12.5l3 3 5-6"></path></svg>
+<h2 style="font-size:30px">Randevu talebiniz hazır</h2>
+<p style="margin:0;font-size:19px;font-weight:700" id="done-what"></p>
+<p style="margin:0;font-size:19px;font-weight:700;color:#24584D" id="done-when"></p>
+<p style="margin:0;color:#3D4F5C;max-width:36rem">Açılan WhatsApp penceresinde mesajı göndererek talebinizi bize iletin. Randevunuzu onaylayıp size en kısa sürede dönüş yapacağız. WhatsApp açılmadıysa <a href="#" id="wa-again">buraya tıklayın</a>.</p>
+<p style="margin:0;color:#3D4F5C;max-width:36rem" id="done-note"></p>
+<div class="iban" id="iban-box" hidden>
+<span style="font-weight:700">Ödeme bilgileri</span>
+<span style="font-size:15px;color:#2D3F4C">Alıcı: Gülşah Göçen</span>
+<span style="font-size:15px;color:#2D3F4C">Tutar: <strong id="iban-price"></strong></span>
+<div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px">
+<span class="mono">TR06 0006 4000 0013 4890 2785 68</span>
+<button type="button" class="copy" id="copy" aria-label="IBAN numarasını kopyala"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"></rect><path d="M5 15V5a2 2 0 012-2h10"></path></svg><span id="copy-label">Kopyala</span></button>
+</div>
+<span style="font-size:15px;color:#2D3F4C">Havale/EFT dekontunu seanstan önce <a href="https://wa.me/905533412912">WhatsApp</a> üzerinden iletin. Dekontunuz ulaştıktan sonra online görüşme bağlantısı cep telefonunuza gönderilecek.</span>
+</div>
+<p style="margin:0;color:#3D4F5C;max-width:36rem">Randevunuzu değiştirmek veya iptal etmek için bize <a href="https://wa.me/905533412912">WhatsApp</a> ya da <a href="tel:+905533412912">telefonla</a> ulaşabilirsiniz.</p>
+<div style="display:flex;flex-wrap:wrap;justify-content:center;gap:12px;padding-top:8px">
+<button type="button" class="btn-o" id="reset">Yeni randevu</button>
+<a href="index.html" style="min-height:48px;padding:0 24px;border-radius:999px;background:#2F6F62;color:#FFFFFF;text-decoration:none;font-weight:700;display:inline-flex;align-items:center">Ana sayfaya dön</a>
+</div>
+</section>
+</main>
+
+<script>
+(function () {
+  // ---- Ayarlar: buradan kolayca değiştirilebilir ----
+  var WHATSAPP = '905533412912';
+  var IBAN = 'TR060006400000134890278568';
+  var HOURS = ['13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
+  var WEEKS_AHEAD = 4;
+  // Resmi tatiller (AA-GG). Dini bayram günlerini her yıl tarihleriyle ekleyin: 'YYYY-AA-GG'
+  var HOLIDAYS = ['01-01', '04-23', '05-01', '05-19', '07-15', '08-30', '10-29'];
+  var HOLIDAY_DATES = [];
+  var SERVICES = [
+    { id: 'on', title: 'Ön Görüşme', desc: '30 dk · Tanışma ve ihtiyaçların değerlendirilmesi', free: true },
+    { id: 'terapi', title: 'Bireysel Terapi Seansı', desc: '45 dk · Ön görüşme yapmış danışanlarımız için', price: '1.500 TL' },
+    { id: 'ebeveyn', title: 'Ebeveyn Görüşmesi', desc: '50 dk · Ebeveyn terapisi ve danışmanlığı', price: '1.500 TL' }
+  ];
+  var MODES = [
+    { id: 'yuz', title: 'Yüz yüze', desc: 'Bornova Evka 3, Masal Çocuk Bakım Evi', pay: 'Ödeme seans günü kart veya nakit' },
+    { id: 'online', title: 'Online', desc: 'Görüntülü görüşme; bağlantı cep telefonunuza gönderilir', pay: 'Ödeme IBAN ile havale/EFT' }
+  ];
+  // -----------------------------------------------------
+
+  var DAYS = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+  var DSHORT = ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'];
+  var MONTHS = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  var st = { step: 1, service: null, mode: null, week: 0, pick: null };
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = function (t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); };
+  var pad = function (n) { return (n < 10 ? '0' : '') + n; };
+
+  function monday(d) { var x = new Date(d.getFullYear(), d.getMonth(), d.getDate()); var wd = (x.getDay() + 6) % 7; x.setDate(x.getDate() - wd); return x; }
+  function isHoliday(d) {
+    var md = pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+    return HOLIDAYS.indexOf(md) >= 0 || HOLIDAY_DATES.indexOf(d.getFullYear() + '-' + md) >= 0;
+  }
+  function svc() { return SERVICES.filter(function (x) { return x.id === st.service; })[0]; }
+  function mode() { return MODES.filter(function (x) { return x.id === st.mode; })[0]; }
+
+  function renderCards() {
+    var free = st.service === 'on';
+    $('services').innerHTML = SERVICES.map(function (x) {
+      return '<button type="button" class="card" data-svc="' + x.id + '" aria-pressed="' + (st.service === x.id) + '"><span class="t">' + esc(x.title) + '</span><span class="d">' + esc(x.desc) + '</span>' + (x.free ? '<span class="badge">Ücretsiz</span>' : '') + '</button>';
+    }).join('');
+    $('modes').innerHTML = MODES.map(function (x) {
+      return '<button type="button" class="card" data-mode="' + x.id + '" aria-pressed="' + (st.mode === x.id) + '"><span class="t">' + esc(x.title) + '</span><span class="d">' + esc(x.desc) + '</span>' + (free ? '' : '<span class="p">' + esc(x.pay) + '</span>') + '</button>';
+    }).join('');
+    $('next1').disabled = !(st.service && st.mode);
+  }
+
+  function renderGrid() {
+    var now = new Date();
+    var m0 = monday(now); m0.setDate(m0.getDate() + st.week * 7);
+    var days = [];
+    for (var i = 0; i < 6; i++) { var d = new Date(m0); d.setDate(m0.getDate() + i); days.push(d); }
+    var a = days[0], b = days[5];
+    $('weekLabel').textContent = a.getDate() + (a.getMonth() !== b.getMonth() ? ' ' + MONTHS[a.getMonth()] : '') + '–' + b.getDate() + ' ' + MONTHS[b.getMonth()];
+    var html = '<div class="hl" style="font-size:14px;color:#4A5D6B">Saat</div>';
+    days.forEach(function (d) {
+      var off = isHoliday(d) || new Date(d.getFullYear(), d.getMonth(), d.getDate() + 1) <= now;
+      html += '<div class="dh' + (off ? ' off' : '') + '"><span class="w">' + DSHORT[d.getDay()] + '</span><span class="d">' + d.getDate() + '</span></div>';
+    });
+    HOURS.forEach(function (h, j) {
+      var end = pad(parseInt(h, 10) + 1) + ':00';
+      html += '<div class="hl">' + h + '–' + end + '</div>';
+      days.forEach(function (d) {
+        var start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), parseInt(h, 10));
+        var hol = isHoliday(d), past = start <= now;
+        var key = d.toDateString() + ' ' + h;
+        var on = st.pick && st.pick.key === key;
+        var label = hol ? 'Tatil' : past ? '—' : on ? 'Seçildi' : 'Müsait';
+        var when = d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + DAYS[d.getDay()] + ', ' + h + '–' + end;
+        html += '<button type="button" class="cell" data-key="' + esc(key) + '" data-when="' + esc(when) + '"' + (hol || past ? ' disabled' : '') + ' aria-pressed="' + !!on + '" aria-label="' + esc(when + ', ' + label) + '">' + label + '</button>';
+      });
+    });
+    $('grid').innerHTML = html;
+    $('prevWeek').disabled = st.week === 0;
+    $('nextWeek').disabled = st.week >= WEEKS_AHEAD - 1;
+    $('picked').textContent = st.pick ? 'Seçilen: ' + st.pick.when : '';
+    $('next2').disabled = !st.pick;
+  }
+
+  function renderSummary() {
+    var s = svc(), m = mode();
+    $('sum-service').textContent = s ? s.title : '';
+    $('sum-mode').textContent = m ? m.title : '';
+    $('sum-when').textContent = st.pick ? st.pick.when : '';
+    $('sum-price-row').hidden = !s || s.free;
+    $('sum-price').textContent = s && s.price ? s.price : '';
+    $('sum-pay').textContent = !s ? '' : s.free ? 'Ön görüşme ücretsizdir.'
+      : m && m.id === 'online' ? 'IBAN ile havale/EFT. Hesap bilgileri bir sonraki ekranda gösterilir. Dekontunuz bize ulaştıktan sonra görüşme bağlantısı cep telefonunuza gönderilir.'
+      : 'Seans günü kartla veya nakit olarak ödenir.';
+  }
+
+  function renderSteps() {
+    var labels = ['Hizmet', 'Saat seçimi', 'Bilgiler', 'Onay'];
+    $('steps').innerHTML = labels.map(function (l, i) {
+      var n = i + 1, cls = n === st.step ? 'cur' : n < st.step ? 'done' : '';
+      return '<li class="' + cls + '"><span class="n">' + (n < st.step ? '✓' : n) + '</span><span class="l">' + l + '</span></li>';
+    }).join('');
+    for (var k = 1; k <= 4; k++) $('s' + k).hidden = st.step !== k;
+  }
+
+  function go(n) { st.step = n; render(); window.scrollTo({ top: 0, behavior: 'smooth' }); }
+  function render() { renderSteps(); renderCards(); renderGrid(); renderSummary(); }
+
+  function waMessage() {
+    var s = svc(), m = mode(), v = function (id) { return $(id).value.trim(); };
+    return 'Merhaba, web sitenizden randevu talebi:\n' +
+      'Hizmet: ' + s.title + '\n' +
+      'Görüşme şekli: ' + m.title + '\n' +
+      'Tarih/saat: ' + st.pick.when + '\n' +
+      'Veli: ' + v('r-veli') + '\n' +
+      'Telefon: ' + v('r-tel') + '\n' +
+      (v('r-mail') ? 'E-posta: ' + v('r-mail') + '\n' : '') +
+      (v('r-cocuk') ? 'Çocuk: ' + v('r-cocuk') + ' (' + $('r-yas').value + ' yaş)\n' : 'Çocuğun yaşı: ' + $('r-yas').value + '\n') +
+      (v('r-not') ? '\nNot: ' + v('r-not') : '');
+  }
+  function openWA() { window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMessage()), '_blank'); }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest('button,a');
+    if (!t) return;
+    if (t.dataset.svc) { st.service = t.dataset.svc; renderCards(); }
+    else if (t.dataset.mode) { st.mode = t.dataset.mode; renderCards(); }
+    else if (t.dataset.key) { st.pick = { key: t.dataset.key, when: t.dataset.when }; renderGrid(); }
+    else if (t.id === 'next1') go(2);
+    else if (t.id === 'next2') go(3);
+    else if (t.id === 'back2') go(1);
+    else if (t.id === 'back3') go(2);
+    else if (t.id === 'prevWeek') { st.week = Math.max(0, st.week - 1); renderGrid(); }
+    else if (t.id === 'nextWeek') { st.week = Math.min(WEEKS_AHEAD - 1, st.week + 1); renderGrid(); }
+    else if (t.id === 'confirm') {
+      var err = '';
+      if (!$('r-veli').value.trim()) err = 'Lütfen adınızı ve soyadınızı yazın.';
+      else if ($('r-tel').value.replace(/\D/g, '').length < 10) err = 'Lütfen geçerli bir telefon numarası yazın.';
+      else if (!$('r-kvkk').checked) err = 'Devam etmek için onay kutusunu işaretleyin.';
+      $('err').textContent = err; $('err').hidden = !err;
+      if (err) return;
+      var s = svc(), m = mode();
+      $('done-what').textContent = s.title + ' · ' + m.title;
+      $('done-when').textContent = st.pick.when;
+      $('done-note').textContent = m.id === 'online'
+        ? (s.free ? 'Görüntülü görüşme bağlantısı, randevunuzdan önce cep telefonunuza gönderilecek.' : 'Aşağıdaki hesaba ödemenizi yapıp dekontu bize iletin. Dekontunuz ulaştıktan sonra görüşme bağlantısı cep telefonunuza gönderilecek.')
+        : (s.free ? 'Sizi Bornova Evka 3’teki evimizde bekliyoruz.' : 'Sizi Bornova Evka 3’teki evimizde bekliyoruz. Seans ücretini (' + s.price + ') seans günü kartla veya nakit olarak ödeyebilirsiniz.');
+      $('iban-box').hidden = !(m.id === 'online' && !s.free);
+      $('iban-price').textContent = s.price || '';
+      openWA();
+      go(4);
+    }
+    else if (t.id === 'wa-again') { e.preventDefault(); openWA(); }
+    else if (t.id === 'copy') {
+      var done = function () { $('copy').classList.add('ok'); $('copy-label').textContent = 'Kopyalandı'; setTimeout(function () { $('copy').classList.remove('ok'); $('copy-label').textContent = 'Kopyala'; }, 2000); };
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(IBAN).then(done, done);
+        else { var ta = document.createElement('textarea'); ta.value = IBAN; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); done(); }
+      } catch (x) { done(); }
+    }
+    else if (t.id === 'reset') { st = { step: 1, service: null, mode: null, week: 0, pick: null }; $('form').reset(); go(1); }
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
