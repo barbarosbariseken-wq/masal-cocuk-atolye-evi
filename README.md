@@ -1,6 +1,6 @@
-# Masal Çocuk Bakım Evi — Web Sitesi
+# Masal Çocuk Atölye Evi — Web Sitesi
 
-Bornova, İzmir'deki Masal Çocuk Bakım Evi'nin web sitesi.
+Bornova, İzmir'deki Masal Çocuk Atölye Evi'nin web sitesi.
 
 ## Dosyalar
 - `index.html` — ana sayfa
