@@ -28,13 +28,25 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 .fan .pos-right{z-index:2;transform:rotate(5deg) translateX(4%) scale(.94);filter:brightness(.8)}
 .fan .pos-center .fan-chip{opacity:1}
 .fan .pos-right .fan-chip{left:auto;right:14px}
-.fan:hover .pos-left,.fan.open .pos-left{transform:rotate(-8deg) translateX(-24%) translateY(1%) scale(.58);filter:none}
-.fan:hover .pos-right,.fan.open .pos-right{transform:rotate(8deg) translateX(24%) translateY(1%) scale(.58);filter:none}
-.fan:hover .pos-center,.fan.open .pos-center{transform:translateY(-2%) scale(.6)}
+.fan:hover .pos-left,.fan.open .pos-left{transform:rotate(-5deg) translateX(-7%) translateY(-3%) scale(.95);filter:none}
+.fan:hover .pos-right,.fan.open .pos-right{transform:rotate(5deg) translateX(7%) translateY(3%) scale(.95);filter:none}
+.fan:hover .pos-center,.fan.open .pos-center{transform:scale(.96)}
+.fan .pos-center:hover{transform:scale(1.03)!important}
+.fan .pos-left:hover{z-index:5;transform:rotate(-2deg) translateX(-4%) scale(1.03)!important}
+.fan .pos-right:hover{z-index:5;transform:rotate(2deg) translateX(4%) scale(1.03)!important}
+.fan .fan-card:hover .fan-chip{opacity:1}
 .fan:hover .fan-chip,.fan.open .fan-chip{opacity:1}
 .fan-hint{margin:0;font-size:14px;color:#D6EBE4;text-align:center;transition:opacity .3s}
 .fan:hover+.fan-hint,.fan.open+.fan-hint{opacity:0}
-@media (prefers-reduced-motion: reduce){.fan-card,.fan-chip{transition:none}}
+.lb{position:fixed;inset:0;z-index:100;background:#0B1F1BE6;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;opacity:0;pointer-events:none;transition:opacity .3s}
+.lb.show{opacity:1;pointer-events:auto}
+.lb figure{margin:0;position:relative;max-width:min(1100px,100%);transform:scale(.94);transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.lb.show figure{transform:scale(1)}
+.lb img{display:block;max-width:100%;max-height:82vh;border-radius:24px;box-shadow:0 30px 60px #0008}
+.lb figcaption{margin-top:12px;text-align:center;color:#FFFFFF;font-family:'Fredoka',sans-serif;font-weight:600;font-size:20px}
+.lb-close{position:absolute;top:-14px;right:-14px;width:48px;height:48px;border-radius:50%;border:0;background:#FFFFFF;color:#1B2B3A;font-size:28px;line-height:1;cursor:pointer;box-shadow:0 6px 16px #0006;display:flex;align-items:center;justify-content:center}
+.lb-close:focus-visible{outline:3px solid #FFD27A;outline-offset:2px}
+@media (prefers-reduced-motion: reduce){.fan-card,.fan-chip,.lb,.lb figure{transition:none}}
 </style>
 
 </head>
@@ -79,11 +91,11 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 </div>
 <div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
 <div class="fan" id="fan" aria-label="Evimizden kareler">
-<figure class="fan-card pos-left" tabindex="0" role="button" aria-label="Bahçemiz fotoğrafını öne getir"><img src="assets/img/bahce-1.jpg" alt="Masal bahçesi: oyun evi, çocuk masası ve salıncak"><figcaption class="fan-chip">Bahçemiz</figcaption></figure>
-<figure class="fan-card pos-right" tabindex="0" role="button" aria-label="Seans odamız fotoğrafını öne getir"><img src="assets/img/seans-odasi.jpg" alt="Seans odası: koltuklar, oyun masası ve kitaplık" style="object-position: center 60%"><figcaption class="fan-chip">Seans Odamız</figcaption></figure>
-<figure class="fan-card pos-center" tabindex="0" role="button" aria-label="Oyun ve etkinlik salonu fotoğrafını öne getir"><img src="assets/img/oyun-odasi.jpg" alt="Masal Çocuk Atölye Evi oyun ve etkinlik salonu"><figcaption class="fan-chip">Oyun ve Etkinlik Salonu</figcaption></figure>
+<figure class="fan-card pos-left" tabindex="0" role="button" aria-label="Bahçemiz fotoğrafını büyüt"><img src="assets/img/bahce-1.jpg" alt="Masal bahçesi: oyun evi, çocuk masası ve salıncak"><figcaption class="fan-chip">Bahçemiz</figcaption></figure>
+<figure class="fan-card pos-right" tabindex="0" role="button" aria-label="Seans odamız fotoğrafını büyüt"><img src="assets/img/seans-odasi.jpg" alt="Seans odası: koltuklar, oyun masası ve kitaplık" style="object-position: center 60%"><figcaption class="fan-chip">Seans Odamız</figcaption></figure>
+<figure class="fan-card pos-center" tabindex="0" role="button" aria-label="Oyun ve etkinlik salonu fotoğrafını büyüt"><img src="assets/img/oyun-odasi.jpg" alt="Masal Çocuk Atölye Evi oyun ve etkinlik salonu"><figcaption class="fan-chip">Oyun ve Etkinlik Salonu</figcaption></figure>
 </div>
-<p class="fan-hint">Üzerine gelin ya da dokunun: bahçemiz ve seans odamız da burada.</p>
+<p class="fan-hint">Üzerine gelin, büyütmek için istediğinize tıklayın.</p>
 </div>
 </div>
 </section>
@@ -684,6 +696,9 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 </footer>
 
 </div>
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Büyütülmüş fotoğraf" aria-hidden="true">
+<figure><img id="lb-img" src="" alt=""><button type="button" class="lb-close" id="lb-close" aria-label="Kapat">&times;</button><figcaption id="lb-cap"></figcaption></figure>
+</div>
 <script>
 (function () {
   var on = 'min-height: 48px; padding: 0 22px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; border: 2px solid #2F6F62; background: #2F6F62; color: #FFFFFF;', off = 'min-height: 48px; padding: 0 22px; border-radius: 999px; font: inherit; font-weight: 700; font-size: 16px; cursor: pointer; border: 2px solid #B8C9C4; background: #FFFFFF; color: #1B2B3A;';
@@ -715,26 +730,42 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
   });
 
   var fan = document.getElementById('fan');
-  if (fan) {
-    var swap = function (card) {
-      var c = fan.querySelector('.pos-center');
-      if (!card || card === c) return;
-      var pos = card.classList.contains('pos-left') ? 'pos-left' : 'pos-right';
-      card.classList.remove(pos); card.classList.add('pos-center');
-      c.classList.remove('pos-center'); c.classList.add(pos);
+  var lb = document.getElementById('lb');
+  if (fan && lb) {
+    var lastFocus = null;
+    var openLb = function (card) {
+      var img = card.querySelector('img');
+      document.getElementById('lb-img').src = img.src;
+      document.getElementById('lb-img').alt = img.alt;
+      document.getElementById('lb-cap').textContent = card.querySelector('figcaption').textContent;
+      lastFocus = card;
+      lb.classList.add('show'); lb.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('lb-close').focus();
+    };
+    var closeLb = function () {
+      lb.classList.remove('show'); lb.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      if (lastFocus) lastFocus.focus();
     };
     var touch = window.matchMedia('(hover: none)').matches;
+    var wasOpen = false;
+    fan.addEventListener('pointerdown', function () { wasOpen = fan.classList.contains('open'); });
     fan.addEventListener('click', function (e) {
       var card = e.target.closest('.fan-card');
-      if (touch && !fan.classList.contains('open')) { fan.classList.add('open'); return; }
-      swap(card);
+      if (!card) return;
+      if (touch && !wasOpen) { fan.classList.add('open'); wasOpen = true; return; }
+      openLb(card);
     });
     fan.addEventListener('keydown', function (e) {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fan.classList.add('open'); swap(e.target.closest('.fan-card')); }
+      if (e.key === 'Enter' || e.key === ' ') { var c = e.target.closest('.fan-card'); if (c) { e.preventDefault(); openLb(c); } }
     });
     fan.addEventListener('focusin', function () { fan.classList.add('open'); });
     fan.addEventListener('focusout', function (e) { if (!fan.contains(e.relatedTarget)) fan.classList.remove('open'); });
-    document.addEventListener('click', function (e) { if (touch && !fan.contains(e.target)) fan.classList.remove('open'); });
+    document.addEventListener('click', function (e) { if (touch && !fan.contains(e.target) && !lb.contains(e.target)) fan.classList.remove('open'); });
+    document.getElementById('lb-close').addEventListener('click', closeLb);
+    lb.addEventListener('click', function (e) { if (e.target === lb) closeLb(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && lb.classList.contains('show')) closeLb(); });
   }
 })();
 </script>
