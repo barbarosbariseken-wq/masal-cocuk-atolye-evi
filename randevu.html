@@ -181,13 +181,13 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   var HOLIDAYS = ['01-01', '04-23', '05-01', '05-19', '07-15', '08-30', '10-29'];
   var HOLIDAY_DATES = [];
   var SERVICES = [
-    { id: 'on', title: 'Ön Görüşme', desc: '30 dk · Tanışma ve ihtiyaçların değerlendirilmesi', free: true },
-    { id: 'terapi', title: 'Bireysel Terapi Seansı', desc: '45 dk · Ön görüşme yapmış danışanlarımız için', price: '1.500 TL' },
-    { id: 'ebeveyn', title: 'Ebeveyn Görüşmesi', desc: '50 dk · Ebeveyn terapisi ve danışmanlığı', price: '1.500 TL' }
+    { id: 'on', title: 'Ön Görüşme', desc: '30 dk · Veliyle tanışma ve ihtiyaçların değerlendirilmesi', free: true, adult: true },
+    { id: 'terapi', title: 'Bireysel Terapi Seansı', desc: '45 dk · Çocuklarla her zaman yüz yüze, birebir', price: '1.500 TL' },
+    { id: 'ebeveyn', title: 'Ebeveyn Görüşmesi', desc: '50 dk · Ebeveyn terapisi ve danışmanlığı', price: '1.500 TL', adult: true }
   ];
   var MODES = [
     { id: 'yuz', title: 'Yüz yüze', desc: 'Bornova Evka 3, Masal Çocuk Atölye Evi', pay: 'Ödeme seans günü kart veya nakit' },
-    { id: 'online', title: 'Online', desc: 'Görüntülü görüşme; bağlantı cep telefonunuza gönderilir', pay: 'Ödeme IBAN ile havale/EFT' }
+    { id: 'online', title: 'Online', desc: 'Yalnızca yetişkin görüşmeleri için; bağlantı cep telefonunuza gönderilir', pay: 'Ödeme IBAN ile havale/EFT' }
   ];
   // -----------------------------------------------------
 
@@ -212,8 +212,11 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
     $('services').innerHTML = SERVICES.map(function (x) {
       return '<button type="button" class="card" data-svc="' + x.id + '" aria-pressed="' + (st.service === x.id) + '"><span class="t">' + esc(x.title) + '</span><span class="d">' + esc(x.desc) + '</span>' + (x.free ? '<span class="badge">Ücretsiz</span>' : '') + '</button>';
     }).join('');
+    var child = !!(svc() && !svc().adult);
+    if (child && st.mode === 'online') st.mode = 'yuz';
     $('modes').innerHTML = MODES.map(function (x) {
-      return '<button type="button" class="card" data-mode="' + x.id + '" aria-pressed="' + (st.mode === x.id) + '"><span class="t">' + esc(x.title) + '</span><span class="d">' + esc(x.desc) + '</span>' + (free ? '' : '<span class="p">' + esc(x.pay) + '</span>') + '</button>';
+      var off = child && x.id === 'online';
+      return '<button type="button" class="card" data-mode="' + x.id + '" aria-pressed="' + (st.mode === x.id) + '"' + (off ? ' disabled style="opacity:.55;cursor:not-allowed"' : '') + '><span class="t">' + esc(x.title) + '</span><span class="d">' + esc(off ? 'Çocuk seansları yalnızca yüz yüze yapılır' : x.desc) + '</span>' + (free || off ? '' : '<span class="p">' + esc(x.pay) + '</span>') + '</button>';
     }).join('');
     $('next1').disabled = !(st.service && st.mode);
   }
@@ -292,7 +295,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
     var t = e.target.closest('button,a');
     if (!t) return;
     if (t.dataset.svc) { st.service = t.dataset.svc; renderCards(); }
-    else if (t.dataset.mode) { st.mode = t.dataset.mode; renderCards(); }
+    else if (t.dataset.mode) { if (!t.disabled) { st.mode = t.dataset.mode; renderCards(); } }
     else if (t.dataset.key) { st.pick = { key: t.dataset.key, when: t.dataset.when }; renderGrid(); }
     else if (t.id === 'next1') go(2);
     else if (t.id === 'next2') go(3);
