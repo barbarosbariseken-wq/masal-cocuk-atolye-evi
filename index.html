@@ -17,6 +17,24 @@ html{scroll-behavior:smooth}
 img,video{max-width:100%}
 [hidden]{display:none!important}
 a{color:#1F3A5F}a:hover{color:#0F223B}
+
+.fan{position:relative;aspect-ratio:3/2;cursor:pointer}
+.fan-card{position:absolute;inset:0;margin:0;border-radius:28px;overflow:hidden;box-shadow:0 20px 44px #0F2F2847;background:#E9F2EF;transform-origin:50% 85%;transition:transform .55s cubic-bezier(.2,.8,.2,1),filter .55s,box-shadow .55s;outline:none}
+.fan-card img{width:100%;height:100%;object-fit:cover;display:block}
+.fan-card:focus-visible{box-shadow:0 0 0 4px #FFD27A,0 20px 44px #0F2F2847}
+.fan-chip{position:absolute;top:14px;left:14px;background:#FFFFFF;color:#1B2B3A;font-family:'Fredoka',sans-serif;font-weight:600;font-size:15px;padding:5px 14px;border-radius:999px;box-shadow:0 4px 12px #0F2F2826;opacity:0;transition:opacity .4s}
+.fan .pos-center{z-index:3}
+.fan .pos-left{z-index:1;transform:rotate(-5deg) translateX(-4%) scale(.94);filter:brightness(.8)}
+.fan .pos-right{z-index:2;transform:rotate(5deg) translateX(4%) scale(.94);filter:brightness(.8)}
+.fan .pos-center .fan-chip{opacity:1}
+.fan .pos-right .fan-chip{left:auto;right:14px}
+.fan:hover .pos-left,.fan.open .pos-left{transform:rotate(-8deg) translateX(-24%) translateY(1%) scale(.58);filter:none}
+.fan:hover .pos-right,.fan.open .pos-right{transform:rotate(8deg) translateX(24%) translateY(1%) scale(.58);filter:none}
+.fan:hover .pos-center,.fan.open .pos-center{transform:translateY(-2%) scale(.6)}
+.fan:hover .fan-chip,.fan.open .fan-chip{opacity:1}
+.fan-hint{margin:0;font-size:14px;color:#D6EBE4;text-align:center;transition:opacity .3s}
+.fan:hover+.fan-hint,.fan.open+.fan-hint{opacity:0}
+@media (prefers-reduced-motion: reduce){.fan-card,.fan-chip{transition:none}}
 </style>
 
 </head>
@@ -59,8 +77,13 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 <a href="#hizmetler" style="border: 2px solid #FFFFFF; color: #FFFFFF; text-decoration: none; font-weight: 700; padding: 12px 26px; border-radius: 999px; min-height: 48px; box-sizing: border-box; display: inline-flex; align-items: center">Neler yapıyoruz?</a>
 </div>
 </div>
-<div style="flex: 1 1 420px; min-width: 0">
-<img src="assets/img/oyun-odasi.jpg" alt="Masal Çocuk Atölye Evi oyun ve etkinlik odası" style="width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 32px; display: block; box-shadow: 0 24px 48px #0F2F2840">
+<div style="flex: 1 1 420px; min-width: 0; display: flex; flex-direction: column; gap: 14px">
+<div class="fan" id="fan" aria-label="Evimizden kareler">
+<figure class="fan-card pos-left" tabindex="0" role="button" aria-label="Bahçemiz fotoğrafını öne getir"><img src="assets/img/bahce-1.jpg" alt="Masal bahçesi: oyun evi, çocuk masası ve salıncak"><figcaption class="fan-chip">Bahçemiz</figcaption></figure>
+<figure class="fan-card pos-right" tabindex="0" role="button" aria-label="Seans odamız fotoğrafını öne getir"><img src="assets/img/seans-odasi.jpg" alt="Seans odası: koltuklar, oyun masası ve kitaplık" style="object-position: center 60%"><figcaption class="fan-chip">Seans Odamız</figcaption></figure>
+<figure class="fan-card pos-center" tabindex="0" role="button" aria-label="Oyun ve etkinlik salonu fotoğrafını öne getir"><img src="assets/img/oyun-odasi.jpg" alt="Masal Çocuk Atölye Evi oyun ve etkinlik salonu"><figcaption class="fan-chip">Oyun ve Etkinlik Salonu</figcaption></figure>
+</div>
+<p class="fan-hint">Üzerine gelin ya da dokunun: bahçemiz ve seans odamız da burada.</p>
 </div>
 </div>
 </section>
@@ -690,6 +713,29 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
       (v('mesaj') ? '\n\n' + v('mesaj') : '');
     window.open('https://wa.me/905533412912?text=' + encodeURIComponent(msg), '_blank');
   });
+
+  var fan = document.getElementById('fan');
+  if (fan) {
+    var swap = function (card) {
+      var c = fan.querySelector('.pos-center');
+      if (!card || card === c) return;
+      var pos = card.classList.contains('pos-left') ? 'pos-left' : 'pos-right';
+      card.classList.remove(pos); card.classList.add('pos-center');
+      c.classList.remove('pos-center'); c.classList.add(pos);
+    };
+    var touch = window.matchMedia('(hover: none)').matches;
+    fan.addEventListener('click', function (e) {
+      var card = e.target.closest('.fan-card');
+      if (touch && !fan.classList.contains('open')) { fan.classList.add('open'); return; }
+      swap(card);
+    });
+    fan.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fan.classList.add('open'); swap(e.target.closest('.fan-card')); }
+    });
+    fan.addEventListener('focusin', function () { fan.classList.add('open'); });
+    fan.addEventListener('focusout', function (e) { if (!fan.contains(e.relatedTarget)) fan.classList.remove('open'); });
+    document.addEventListener('click', function (e) { if (touch && !fan.contains(e.target)) fan.classList.remove('open'); });
+  }
 })();
 </script>
 </body>
