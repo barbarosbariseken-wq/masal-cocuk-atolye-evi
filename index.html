@@ -276,6 +276,14 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 #farkimiz .fk-demo{margin-top:auto;background:#FFFFFF;border-radius:20px;padding:16px;box-shadow:0 6px 18px #0F2F2814}
 #farkimiz .fk-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:14px;font-weight:700;color:#1B2B3A}
 #farkimiz .fk-steps svg{display:block;margin:0 auto 6px}
+#farkimiz .fk-grid2{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:20px}
+@media (max-width:900px){#farkimiz .fk-grid2{grid-template-columns:1fr}}
+#farkimiz .fk-wide{flex-direction:row;align-items:center;gap:28px;padding:20px 28px 20px 20px}
+@media (max-width:640px){#farkimiz .fk-wide{flex-direction:column;align-items:stretch;padding:20px}}
+#farkimiz .fk-photo{flex:0 0 42%;width:42%;max-width:300px;aspect-ratio:3/4;object-fit:cover;border-radius:22px;display:block}
+@media (max-width:640px){#farkimiz .fk-photo{flex:none;width:100%;max-width:none;aspect-ratio:1/1;object-position:center 45%}}
+#farkimiz .fk-body{display:flex;flex-direction:column;gap:12px;min-width:0}
+#farkimiz .fk-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:#3D4F5C}
 </style>
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 46rem">
 <span style="color: #2F6F62; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px">Sadece Masal'da</span>
@@ -317,7 +325,35 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 </article>
 
 </div>
-<p style="margin:0;font-size:14px;color:#4A5D6B">Akşam sohbet sorusu ve gelişim mektubu tam gün ve yarım gün programımızdaki çocuklar için; mesajlar yalnızca o çocuğun velisine gönderilir.</p>
+<div class="fk-grid2">
+
+<article class="fk-card fk-wide" style="background:#EDEBEB">
+<img src="assets/img/surpriz-cark.jpg" alt="3D yazıcıda ürettiğimiz, içi renkli toplarla dolu yeşil-turuncu sürpriz çarkı" loading="lazy" class="fk-photo">
+<div class="fk-body">
+<span class="fk-no" style="color:#24584D">Her gün sonu</span>
+<h3>Sürpriz çarkı</h3>
+<p>Kendi 3D yazıcımızda ürettiğimiz çarkımızın içi renkli toplarla dolu. Çocuklar eve giderken çarkı çeviriyor; çıkan topun içinden bir sürpriz çıkıyor:</p>
+<ul class="fk-list">
+<li><strong>Küçük bir hediye</strong> · çıkartma, mini figür, boyama kartı</li>
+<li><strong>Evde ailece bir görev</strong> · "Annene bugün en çok neye güldüğünü anlat"</li>
+<li><strong>Özel bir not</strong> · öğretmeninden ona yazılmış küçük bir mesaj</li>
+</ul>
+</div>
+</article>
+
+<article class="fk-card" style="background:#E6EEF8">
+<span class="fk-no" style="color:#1F3A5F">Resim atölyelerinde</span>
+<h3>Psikologla resim sohbeti</h3>
+<p>Resim atölyelerimizin ardından psikoloğumuz çocuğunuzun resmine onunla birlikte bakıyor, resmi ona anlattırıyor. Ardından resimde ve anlatımında gözlemlediklerini sizinle paylaşıyor: neye ilgi duyduğu, neler hissettiği, ailesini ve arkadaşlarını nasıl gördüğü.</p>
+<div class="fk-demo" aria-label="Örnek paylaşım">
+<div style="font-size:13px;font-weight:700;color:#1F3A5F;margin-bottom:8px">Psikoloğumuzdan</div>
+<div style="font-size:15px;color:#1B2B3A;line-height:1.5">Deniz bu hafta ailesini bahçede, el ele çizdi ve en büyük güneşi kendi başının üstüne koydu. Resmini anlatırken en çok kardeşinden söz etti.</div>
+</div>
+<p style="font-size:14px">Resim sohbeti bir tanı aracı değil; çocuğunuzu daha iyi tanımanın ve onunla konuşmanın keyifli bir yolu.</p>
+</article>
+
+</div>
+<p style="margin:0;font-size:14px;color:#4A5D6B">Akşam sohbet sorusu, gelişim mektubu ve resim sohbeti tam gün ve yarım gün programımızdaki çocuklar için; paylaşımlar yalnızca o çocuğun velisine yapılır.</p>
 </section>
 
 <!-- GALERİ -->
