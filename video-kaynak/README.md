@@ -7,3 +7,4 @@
 
 - `masal-instagram-anlatimli-v1.mp4` — Instagram/reklam videosu: ElevenLabs kadın anlatımı, altta kısık şarkı, alt yazılı, 54 sn. Önemli yazılar ve alt yazılar Reels reklam güvenli alanında (üst %14 ve alt %35 boş).
 - `instagram-video-uret.py`, `instagram-yardimci.py`, `instagram-ses-altyazi.py` — Bu videonun görüntü, ses ve alt yazı betikleri.
+- `masal-instagram-anlatimli-altyazisiz.mp4` — Aynı Instagram videosu, alt yazısız (paylaşılacak sürüm).
