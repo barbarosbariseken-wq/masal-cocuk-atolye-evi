@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masal'da Bir Gün · Masal Çocuk Atölye Evi</title>
+<meta name="description" content="Masal Çocuk Atölye Evi'nde bir gün: kahvaltıdan vedaya, atölyelerden Konuşan Kule'ye. Bornova Evka 3.">
+<meta property="og:title" content="Masal'da Bir Gün">
+<meta property="og:description" content="Kaydırın, Masal'da bir günü yaşayın.">
+<meta property="og:image" content="https://barbarosbariseken-wq.github.io/masal-cocuk-atolye-evi/assets/img/paylasim.jpg">
+<link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
+<style>
+:root{
+  --ink:#1F3A5F; --ink-soft:#4A5D6B; --sky:#DCEFF8; --leaf:#8DB580; --pink:#E58C9A; --sun:#F2C14E; --lilac:#9B8BC4;
+  --k-konus:#2F6F62; --k-hareket:#F2A93B; --k-sevgi:#E8795A; --k-hayal:#1F3A5F; --k-ahsap:#D9B98C;
+  --paper:#FFFFFF;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:'Nunito Sans',system-ui,sans-serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3{font-family:'Fredoka',sans-serif;font-weight:600;line-height:1.08;margin:0;letter-spacing:-.01em}
+p{margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--k-hareket);outline-offset:3px;border-radius:8px}
+img{display:block;max-width:100%;height:auto}
+
+/* top bar */
+.bar{position:fixed;inset:0 0 auto 0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 20px;pointer-events:none}
+.bar a{pointer-events:auto;text-decoration:none}
+.bar .home{display:flex;align-items:center;gap:10px;background:#FFFFFFE6;backdrop-filter:blur(8px);padding:6px 16px 6px 8px;border-radius:999px;font-family:'Fredoka',sans-serif;font-weight:600;font-size:18px}
+.bar .home img{width:52px;height:auto}
+.bar .go{background:var(--ink);color:#fff;font-weight:800;font-size:16px;padding:12px 20px;border-radius:999px;min-height:44px;display:inline-flex;align-items:center}
+
+/* scroll scenes */
+.scene{position:relative}
+.stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+
+/* 1 hero */
+#hero{height:230vh}
+#hero .stage{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;background:radial-gradient(120% 80% at 50% 110%,#BFE3F3 0%,var(--sky) 60%)}
+.word{position:relative;display:flex;gap:.02em;font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(96px,22vw,280px);line-height:.9}
+.word span{display:inline-block;will-change:transform}
+.roof{position:absolute;left:50%;top:-.55em;width:1.9em;transform:translateX(-50%);overflow:visible}
+.roof path{fill:none;stroke:#C9A27A;stroke-width:14;stroke-linecap:round;stroke-linejoin:round}
+.hero-sub{font-family:'Fredoka',sans-serif;font-weight:500;font-size:clamp(22px,3.4vw,36px);text-align:center;max-width:22ch;padding:0 20px}
+.hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-weight:700;font-size:15px;color:var(--ink-soft);display:flex;flex-direction:column;align-items:center;gap:6px}
+.hint i{width:26px;height:40px;border:2.5px solid var(--ink-soft);border-radius:14px;position:relative}
+.hint i::after{content:"";position:absolute;left:50%;top:8px;width:4px;height:8px;margin-left:-2px;border-radius:2px;background:var(--ink-soft);animation:wheel 1.6s infinite}
+@keyframes wheel{0%{opacity:0;transform:translateY(0)}30%{opacity:1}100%{opacity:0;transform:translateY(12px)}}
+
+/* 2 day */
+#gun{height:620vh}
+#gun .stage{background:var(--daysky,#CFE8F5);transition:none}
+.sunpath{position:absolute;inset:0}
+.sun{position:absolute;width:min(22vw,150px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 40% 40%,#FFE9A8,#F2C14E 60%,#E9A93A);box-shadow:0 0 80px 20px #F2C14E66;transform:translate(-50%,-50%)}
+.hill{position:absolute;left:-10%;right:-10%;bottom:0;border-radius:50% 50% 0 0 / 100% 100% 0 0}
+.h1{height:26%;background:#A8CF92;bottom:-6%}
+.h2{height:20%;background:#8DB580;left:-30%;right:30%;bottom:-8%}
+.h3{height:18%;background:#7BA86F;left:35%;right:-35%;bottom:-9%}
+.house{position:absolute;bottom:12%;left:8%;width:min(30vw,220px)}
+.clock{position:absolute;top:96px;left:clamp(20px,6vw,80px);font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(64px,13vw,170px);line-height:1;color:var(--ink);font-variant-numeric:tabular-nums}
+.moments{position:absolute;right:clamp(16px,6vw,90px);top:50%;transform:translateY(-50%);width:min(440px,calc(100% - 32px))}
+.moment{position:absolute;inset:auto 0 auto 0;top:0;transform:translateY(-50%);background:var(--paper);border-radius:28px 28px 28px 6px;padding:26px 28px;box-shadow:0 18px 40px #1F3A5F26;opacity:0;transition:opacity .35s,transform .35s;display:flex;gap:18px;align-items:flex-start}
+.moment.on{opacity:1;transform:translateY(-50%) scale(1)}
+.moment svg{flex:0 0 64px}
+.moment h3{font-size:30px;margin-bottom:6px}
+.moment p{color:var(--ink-soft)}
+.moment .when{display:inline-block;font-weight:800;font-size:14px;color:var(--ink);background:#FFE9A8;border-radius:999px;padding:3px 12px;margin-bottom:8px}
+@media (max-width:760px){
+  .clock{top:84px;left:20px}
+  .moments{top:auto;bottom:24%;transform:none;left:16px;right:16px;width:auto}
+  .moment{transform:translateY(-100%)}
+  .moment.on{transform:translateY(-100%)}
+  .house{left:auto;right:6%;bottom:14%;width:28vw}
+}
+
+/* 3 workshops – horizontal */
+#atolye{height:460vh;background:#FFF6E8}
+#atolye .stage{display:flex;flex-direction:column;justify-content:center;background:#FFF6E8}
+.at-head{position:absolute;top:96px;left:clamp(20px,6vw,80px);right:20px}
+.at-head h2{font-size:clamp(40px,6vw,76px)}
+.at-head p{color:var(--ink-soft);margin-top:8px;max-width:40ch}
+.track{display:flex;gap:4vw;padding:0 8vw;will-change:transform;margin-top:170px}
+@media (max-width:760px){.track{margin-top:150px}}
+.panel{flex:0 0 min(72vw,640px);height:min(58vh,520px);border-radius:40px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:32px}
+.panel h3{font-size:clamp(30px,4vw,46px)}
+.panel p{max-width:30ch;margin-top:6px}
+.obj{position:absolute;inset:0 0 30% 0;display:flex;align-items:center;justify-content:center;perspective:700px}
+.p1{background:#FCE3DA}.p2{background:#E3F2EC}.p3{background:#FFF0D2}.p4{background:#E1E9F4}
+/* cube figure */
+.cube{width:120px;height:120px;position:relative;transform-style:preserve-3d}
+.cube b{position:absolute;inset:0;border-radius:18px;display:block;border:3px solid #ffffff99}
+.cube b:nth-child(1){transform:translateZ(60px);background:var(--k-sevgi)}
+.cube b:nth-child(2){transform:rotateY(180deg) translateZ(60px);background:var(--k-hareket)}
+.cube b:nth-child(3){transform:rotateY(90deg) translateZ(60px);background:var(--k-konus)}
+.cube b:nth-child(4){transform:rotateY(-90deg) translateZ(60px);background:var(--lilac)}
+.cube b:nth-child(5){transform:rotateX(90deg) translateZ(60px);background:#F7D58A}
+.cube b:nth-child(6){transform:rotateX(-90deg) translateZ(60px);background:var(--k-hayal)}
+.drops{position:relative;width:260px;height:200px}
+.drops i{position:absolute;width:150px;height:150px;border-radius:50%;mix-blend-mode:multiply;opacity:.85}
+.drops i:nth-child(1){background:#7EC3E6;left:0;top:0}
+.drops i:nth-child(2){background:#F2C14E;right:0;top:0}
+.drops i:nth-child(3){background:#E58C9A;left:55px;bottom:-10px}
+.kite{width:150px;transform-origin:50% 90%}
+
+/* 4 tower */
+#kule{height:480vh;background:#FBEFE4}
+#kule .stage{background:radial-gradient(90% 70% at 50% 75%,#FFF8EF 0%,#FBEFE4 70%)}
+.k-head{position:absolute;top:96px;left:clamp(20px,6vw,80px);right:20px;max-width:560px}
+.k-head h2{font-size:clamp(44px,7vw,92px)}
+.k-head p{color:var(--ink-soft);margin-top:10px}
+.scene3d{position:absolute;left:62%;bottom:9%;width:0;height:0;perspective:1400px;perspective-origin:50% -40%}
+.tower{position:absolute;transform-style:preserve-3d}
+.blk{position:absolute;transform-style:preserve-3d}
+.blk i{position:absolute;display:block;backface-visibility:hidden;border-radius:4px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;font-weight:700;font-size:16px}
+.legend span{display:flex;align-items:center;gap:10px;opacity:0;transition:opacity .4s}
+.legend span.on{opacity:1}
+.legend em{width:30px;height:16px;border-radius:5px;display:inline-block}
+.qcard{position:absolute;right:clamp(16px,6vw,90px);top:34%;width:min(400px,86vw);transform:translateY(-50%) scale(.9);opacity:0;background:#fff;border-radius:30px;padding:24px 28px;box-shadow:0 22px 50px #1F3A5F2E;transition:opacity .4s,transform .4s}
+.qcard.on{opacity:1;transform:translateY(-50%) scale(1)}
+.qcard small{font-weight:800;color:var(--k-sevgi);font-size:15px}
+.qcard p{font-family:'Fredoka',sans-serif;font-weight:600;font-size:28px;line-height:1.2;margin-top:6px}
+@media (max-width:760px){.legend{font-size:14px;gap:6px 14px}.scene3d{left:50%;bottom:9%}.qcard{top:47%;left:16px;right:16px;width:auto}}
+
+/* 5 difference */
+#fark{height:420vh;background:#EEF5F2}
+#fark .stage{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:90px clamp(20px,6vw,80px) 40px;background:#EEF5F2}
+.f-text h2{font-size:clamp(38px,5.4vw,70px)}
+.f-steps{margin-top:28px;display:flex;flex-direction:column;gap:14px}
+.f-step{padding:16px 20px;border-radius:22px;border:2px solid transparent;opacity:.45;transition:opacity .3s,background .3s,border-color .3s}
+.f-step.on{opacity:1;background:#fff;border-color:#CFE6DE}
+.f-step h3{font-size:24px}
+.f-step p{color:var(--ink-soft);font-size:17px;margin-top:4px}
+.f-visual{position:relative;height:min(70vh,560px)}
+.fv{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .4s}
+.fv.on{opacity:1}
+.phone{width:min(300px,70vw);background:#1F3A5F;border-radius:44px;padding:14px;box-shadow:0 24px 50px #1F3A5F40}
+.phone .scr{background:#ECE5DD;border-radius:32px;padding:22px 16px;min-height:360px;display:flex;flex-direction:column;gap:12px;justify-content:flex-end}
+.bubble{background:#DCF8C6;border-radius:18px 18px 18px 4px;padding:12px 14px;font-size:16px;line-height:1.45;transform-origin:0 100%}
+.bubble b{font-weight:800}
+.stamp{font-size:13px;font-weight:700;color:#5b6b75}
+.letter{width:min(400px,80vw);transform-origin:50% 0;perspective:900px}
+.letter .sheet{background:#fff;border-radius:18px;padding:28px;box-shadow:0 24px 50px #1F3A5F26;transform-origin:50% 0}
+.letter h4{margin:0 0 12px;font-family:'Fredoka',sans-serif;font-size:20px;color:#7A4F00;display:flex;justify-content:space-between}
+.letter p{font-size:17px}
+.letter .tip{margin-top:14px;background:#FFF3DA;border-radius:14px;padding:12px 14px;font-size:16px;color:var(--ink-soft)}
+.drawing{width:min(420px,84vw);background:#fff;border-radius:22px;box-shadow:0 24px 50px #1F3A5F26;padding:16px}
+.drawing svg path{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.drawing p{font-size:16px;color:var(--ink-soft);margin-top:10px}
+@media (max-width:860px){
+  #fark .stage{grid-template-columns:1fr;grid-template-rows:auto 1fr;gap:16px;padding-top:84px}
+  .f-steps{flex-direction:row;gap:8px;margin-top:14px}
+  .f-step{padding:10px 12px;flex:1}.f-step p{display:none}.f-step h3{font-size:16px}
+  .f-text h2{font-size:34px}
+  .f-visual{height:auto;min-height:0}
+}
+
+/* 6 wheel */
+#cark{height:300vh;background:#F1EFEF}
+#cark .stage{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:4vw;padding:90px clamp(20px,6vw,80px) 30px;background:#F1EFEF}
+.c-text h2{font-size:clamp(40px,6vw,80px)}
+.c-text p{color:var(--ink-soft);margin-top:12px;max-width:34ch}
+.prizes{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.prizes span{font-weight:800;color:#fff;padding:10px 18px;border-radius:999px;opacity:0;transform:translateY(10px) scale(.9);transition:opacity .35s,transform .35s}
+.prizes span.on{opacity:1;transform:none}
+.machine{position:relative;justify-self:center;width:min(380px,70vw)}
+.machine img{border-radius:32px;width:100%}
+.balls{position:absolute;inset:0;pointer-events:none}
+.balls i{position:absolute;left:44.2%;top:0;width:11%;aspect-ratio:1;border-radius:50%;box-shadow:inset -5px -7px 0 #0000002a, inset 4px 4px 0 #ffffff55;opacity:0}
+@media (max-width:860px){#cark .stage{grid-template-columns:1fr;gap:12px}.machine{width:min(300px,62vw)}.c-text h2{font-size:38px}}
+
+/* 7 therapy */
+.therapy{position:relative;padding:120px clamp(20px,6vw,80px);background:#E1E9F4;overflow:hidden}
+.th-wrap{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;align-items:center}
+.th-img{border-radius:40px;overflow:hidden;position:relative;aspect-ratio:4/3}
+.th-img img{width:100%;height:100%;object-fit:cover;transform:scale(var(--z,1.15));will-change:transform}
+.th-img small{position:absolute;left:16px;bottom:16px;background:#1F3A5FCC;color:#fff;font-weight:700;font-size:13px;padding:4px 12px;border-radius:999px}
+.age{font-family:'Fredoka',sans-serif;font-weight:700;font-size:clamp(90px,14vw,190px);line-height:.9;color:var(--k-konus)}
+.th-text h2{font-size:clamp(34px,4.4vw,56px);margin-top:8px}
+.th-text ul{list-style:none;padding:0;margin:22px 0 0;display:flex;flex-wrap:wrap;gap:10px}
+.th-text li{background:#fff;border-radius:999px;padding:10px 18px;font-weight:700}
+.th-text p{color:var(--ink-soft);margin-top:18px}
+@media (max-width:860px){.th-wrap{grid-template-columns:1fr}}
+
+/* 8 team + film + cta */
+.team{padding:120px clamp(20px,6vw,80px);background:#fff}
+.team-in{max-width:1100px;margin:0 auto}
+.team h2{font-size:clamp(36px,5vw,64px);max-width:18ch}
+.people{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:40px}
+.person img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:28px}
+.person h3{font-size:26px;margin-top:14px}
+.person p{color:var(--ink-soft)}
+@media (max-width:700px){.people{grid-template-columns:1fr 1fr}.people .person:last-child{grid-column:1/-1;max-width:50%;justify-self:center}}
+.final{background:var(--ink);color:#fff;padding:110px clamp(20px,6vw,80px) 70px}
+.final-in{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr minmax(240px,320px);gap:6vw;align-items:center}
+.final h2{font-size:clamp(40px,6vw,80px)}
+.final p{color:#D6E2F0;margin-top:14px;max-width:36ch}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.btns a{display:inline-flex;align-items:center;min-height:52px;padding:14px 26px;border-radius:999px;font-weight:800;text-decoration:none}
+.btns .a1{background:var(--sun);color:var(--ink)}
+.btns .a2{border:2px solid #FFFFFF66;color:#fff}
+.final video{width:100%;aspect-ratio:9/16;border-radius:30px;background:#0F223B;display:block}
+.foot{margin-top:70px;font-size:15px;color:#A9BED6;max-width:1100px;margin-left:auto;margin-right:auto}
+@media (max-width:760px){.final-in{grid-template-columns:1fr}.final video{max-width:300px;margin:0 auto}}
+
+/* reduced motion: show everything, no pinning */
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  #hero,#gun,#atolye,#kule,#fark,#cark{height:auto}
+  .stage{position:relative;height:auto;min-height:100vh}
+  .hint i::after{animation:none}
+}
+</style>
+</head>
+<body>
+
+<header class="bar">
+<a class="home" href="index.html"><img src="assets/img/logo-isaret.png" alt="" width="52" height="35">Masal</a>
+<a class="go" href="randevu.html">Ön görüşme</a>
+</header>
+
+<main>
+
+<!-- 1 · HERO -->
+<section class="scene" id="hero" aria-label="Giriş">
+<div class="stage">
+  <div class="word" aria-label="Masal">
+    <svg class="roof" viewBox="0 0 200 90" aria-hidden="true"><path id="roofPath" d="M8 84 L100 10 L192 84"/></svg>
+    <span style="color:#E58C9A">M</span><span style="color:#8DB580">a</span><span style="color:#F2C14E">s</span><span style="color:#7EC3E6">a</span><span style="color:#9B8BC4">l</span>
+  </div>
+  <p class="hero-sub" id="heroSub">Bornova Evka 3'te çocuklar için bir atölye ve terapi evi.</p>
+  <div class="hint" id="hint"><i></i>Kaydırın, bir günü birlikte geçirelim</div>
+</div>
+</section>
+
+<!-- 2 · BİR GÜN -->
+<section class="scene" id="gun" aria-label="Masal'da bir gün">
+<div class="stage" id="gunStage">
+  <div class="sunpath"><div class="sun" id="sun"></div></div>
+  <div class="hill h1"></div><div class="hill h2"></div><div class="hill h3"></div>
+  <svg class="house" viewBox="0 0 200 170" aria-hidden="true"><path d="M20 80 L100 14 L180 80" fill="none" stroke="#C9A27A" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/><rect x="40" y="76" width="120" height="90" rx="10" fill="#FFF6E8"/><rect x="86" y="112" width="30" height="54" rx="6" fill="#E8795A"/><rect x="54" y="96" width="24" height="24" rx="5" fill="#7EC3E6"/><rect x="124" y="96" width="24" height="24" rx="5" fill="#7EC3E6"/></svg>
+  <div class="clock" id="clock" aria-live="off">09:00</div>
+  <div class="moments">
+    <article class="moment" data-a="0" data-b=".2">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="30" cy="36" r="22" fill="#FFE9A8"/><path d="M14 30h32v8a16 16 0 0 1-32 0z" fill="#E8795A"/><path d="M46 32h4a6 6 0 0 1 0 12h-6" fill="none" stroke="#E8795A" stroke-width="4"/><path d="M24 22c0-4 4-4 4-8M34 22c0-4 4-4 4-8" stroke="#C9A27A" stroke-width="3" fill="none" stroke-linecap="round"/></svg>
+      <div><span class="when">09:00</span><h3>Kahvaltı ve günaydın</h3><p>Güne aynı sofrada, hep birlikte başlıyoruz.</p></div>
+    </article>
+    <article class="moment" data-a=".2" data-b=".45">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><rect x="6" y="34" width="22" height="22" rx="4" fill="#8DB580"/><rect x="30" y="34" width="22" height="22" rx="4" fill="#7EC3E6"/><rect x="18" y="10" width="22" height="22" rx="4" fill="#F2C14E"/><text x="29" y="27" font-size="14" text-anchor="middle" font-family="Fredoka" font-weight="700" fill="#1F3A5F">A</text></svg>
+      <div><span class="when">Öğleden önce</span><h3>Öğrenme ve keşif</h3><p>Günler, saatler, temel kavramlar ve günün atölyesi.</p></div>
+    </article>
+    <article class="moment" data-a=".45" data-b=".62">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 32h48a24 20 0 0 1-48 0z" fill="#7EC3E6"/><path d="M20 26c4-6 20-6 24 0" fill="#8DB580"/><circle cx="46" cy="16" r="6" fill="#F2C14E"/></svg>
+      <div><span class="when">Öğle</span><h3>Öğle yemeği ve dinlenme</h3><p>Sıcak bir öğle yemeği, ardından sakin bir mola.</p></div>
+    </article>
+    <article class="moment" data-a=".62" data-b=".86">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="24" fill="#E8795A"/><path d="M8 32h48M32 8c-10 10-10 38 0 48M32 8c10 10 10 38 0 48" stroke="#fff" stroke-width="3" fill="none"/></svg>
+      <div><span class="when">Öğleden sonra</span><h3>Grup oyunları ve spor</h3><p>Spor eğitmenimizle paylaşmayı, sıra beklemeyi ve takım olmayı oynayarak öğreniyoruz.</p></div>
+    </article>
+    <article class="moment" data-a=".86" data-b="1.01">
+      <svg viewBox="0 0 64 64" aria-hidden="true"><path d="M8 30 L32 10 L56 30" fill="none" stroke="#C9A27A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="28" width="36" height="28" rx="4" fill="#FFF6E8"/><path d="M32 52c-8-6-12-10-12-15a6 6 0 0 1 12-2 6 6 0 0 1 12 2c0 5-4 9-12 15z" fill="#E58C9A"/></svg>
+      <div><span class="when">17:00–18:00</span><h3>Veda</h3><p>Sürpriz çarkını çevirip eve dönme vakti.</p></div>
+    </article>
+  </div>
+</div>
+</section>
+
+<!-- 3 · ATÖLYELER -->
+<section class="scene" id="atolye" aria-label="Atölyeler">
+<div class="stage">
+  <div class="at-head"><h2>Her gün başka bir atölye</h2><p>Çocuklar elleriyle üretiyor, bitirdikleri işle gurur duyuyor.</p></div>
+  <div class="track" id="track">
+    <article class="panel p1"><div class="obj"><div class="cube" id="cube"><b></b><b></b><b></b><b></b><b></b><b></b></div></div><h3>3D figür boyama</h3><p>Kendi 3D yazıcımızda bastığımız figürleri kendi renkleriyle boyuyorlar.</p></article>
+    <article class="panel p2"><div class="obj"><div class="drops" id="drops"><i></i><i></i><i></i></div></div><h3>Sulu boya</h3><p>Renkler birbirine karışıyor, yeni renkler doğuyor.</p></article>
+    <article class="panel p3"><div class="obj"><svg id="cone" viewBox="0 0 120 160" width="140" aria-hidden="true"></svg></div><h3>Kozalak boyama</h3><p>Doğadan topladığımız kozalakları süsleyip küçük sanat eserlerine dönüştürüyoruz.</p></article>
+    <article class="panel p4"><div class="obj"><svg class="kite" id="kite" viewBox="0 0 150 230" aria-hidden="true"><path d="M75 6 L130 70 L75 150 L20 70 Z" fill="#E58C9A"/><path d="M75 6 L75 150 M20 70 L130 70" stroke="#fff" stroke-width="4"/><path d="M75 150 C60 175 95 190 75 228" fill="none" stroke="#1F3A5F" stroke-width="3"/><path d="M68 170 l14 6 M70 200 l14 -6" stroke="#F2C14E" stroke-width="6" stroke-linecap="round"/></svg></div><h3>Uçurtma yapımı</h3><p>Kendi uçurtmalarını tasarlayıp bahçede birlikte uçuruyorlar.</p></article>
+  </div>
+</div>
+</section>
+
+<!-- 4 · KONUŞAN KULE -->
+<section class="scene" id="kule" aria-label="Konuşan Kule">
+<div class="stage">
+  <div class="k-head"><h2>Konuşan Kule</h2><p>Her blokta ailenizle yapacağınız küçük bir görev var. Kule yükseldikçe sohbet derinleşiyor.</p>
+<div class="legend" id="legend">
+    <span><em style="background:var(--k-konus)"></em>Konuşalım</span>
+    <span><em style="background:var(--k-hareket)"></em>Hareket edelim</span>
+    <span><em style="background:var(--k-sevgi)"></em>Sevgi</span>
+    <span><em style="background:var(--k-hayal)"></em>Hayal edelim</span>
+  </div></div>
+  <div class="scene3d"><div class="tower" id="tower"></div></div>
+  <div class="qcard" id="qcard"><small>Sevgi bloğu</small><p>"Bugün seni en çok ne mutlu etti? Birbirinize anlatın."</p></div>
+</div>
+</section>
+
+<!-- 5 · FARKIMIZ -->
+<section class="scene" id="fark" aria-label="Masal'ın farkı">
+<div class="stage">
+  <div class="f-text">
+    <h2>Ekibinde psikolog olan bir atölye evi</h2>
+    <div class="f-steps">
+      <div class="f-step"><h3>Akşam sohbet sorusu</h3><p>Her akşam, o gün çocuğunuzun yaşadıklarına göre tek bir soru.</p></div>
+      <div class="f-step"><h3>Gelişim mektubu</h3><p>Ayda bir, psikoloğumuz çocuğunuzu bir sayfada anlatıyor.</p></div>
+      <div class="f-step"><h3>Resim sohbeti</h3><p>Resim atölyesinden sonra psikoloğumuz resmi çocuğunuzla birlikte konuşuyor.</p></div>
+    </div>
+  </div>
+  <div class="f-visual">
+    <div class="fv"><div class="phone"><div class="scr"><span class="stamp">Masal · 18:30</span><div class="bubble" id="bub">Bugün Elif uçurtmasını kırmızıya boyadı. Akşam ona <b>"Neden kırmızıyı seçtin?"</b> diye sorun.</div></div></div></div>
+    <div class="fv"><div class="letter"><div class="sheet" id="sheet"><h4><span>Gelişim mektubu</span><span>Kasım</span></h4><p>Bu ay Can <b>sırasını beklemeyi</b> öğreniyor. Grup oyununda topu ilk kez arkadaşına kendisi verdi.</p><div class="tip"><b>Evde deneyin:</b> Sofrada herkes sırayla günün en güzel anını anlatsın.</div></div></div></div>
+    <div class="fv"><div class="drawing"><svg viewBox="0 0 400 240" aria-hidden="true" id="draw">
+      <path d="M0 220 Q100 200 200 215 T400 210" stroke="#8DB580" stroke-width="10"/>
+      <circle cx="330" cy="50" r="30" stroke="#F2C14E" stroke-width="8" fill="none"/>
+      <path d="M90 200 v-50 M90 160 l-18 18 M90 160 l18 18 M90 150 a14 14 0 1 1 0.1 0" stroke="#E8795A" stroke-width="6"/>
+      <path d="M150 200 v-60 M150 155 l-20 20 M150 155 l20 20 M150 140 a16 16 0 1 1 0.1 0" stroke="#1F3A5F" stroke-width="6"/>
+      <path d="M210 200 v-36 M210 175 l-14 12 M210 175 l14 12 M210 164 a11 11 0 1 1 0.1 0" stroke="#9B8BC4" stroke-width="6"/>
+      <path d="M108 178 L132 178 M168 178 L196 180" stroke="#E58C9A" stroke-width="5"/>
+    </svg><p>"Deniz bu hafta ailesini bahçede, el ele çizdi. Resmini anlatırken en çok kardeşinden söz etti."</p></div></div>
+  </div>
+</div>
+</section>
+
+<!-- 6 · SÜRPRİZ ÇARKI -->
+<section class="scene" id="cark" aria-label="Sürpriz çarkı">
+<div class="stage">
+  <div class="c-text">
+    <h2>Gün sonunda çarkı çevir</h2>
+    <p>Çarkımızı da kendi 3D yazıcımızda ürettik. Eve giderken çıkan topun içinde bir sürpriz var.</p>
+    <div class="prizes" id="prizes"><span style="background:var(--k-sevgi)">Küçük bir hediye</span><span style="background:var(--k-konus)">Ailece bir görev</span><span style="background:var(--k-hayal)">Öğretmeninden bir not</span></div>
+  </div>
+  <div class="machine"><img src="assets/img/surpriz-cark.jpg" alt="3D yazıcıda ürettiğimiz, renkli toplarla dolu sürpriz çarkı" width="800" height="1067"><div class="balls" id="balls"></div></div>
+</div>
+</section>
+
+<!-- 7 · TERAPİ -->
+<section class="therapy" id="terapi" aria-label="Bireysel terapi">
+<div class="th-wrap">
+  <div class="th-img" id="thImg"><img src="assets/img/seans-odasi.jpg" alt="Seans odası: koltuklar, oyun masası ve kitaplık" loading="lazy"><small>Temsilî görsel</small></div>
+  <div class="th-text">
+    <div class="age">3–18</div>
+    <h2>yaş için birebir seanslar</h2>
+    <ul><li>Oyun terapisi</li><li>Yoga terapisi</li><li>Otizm spektrumu desteği</li><li>Ebeveyn danışmanlığı</li></ul>
+    <p>Okul sonrası saatlerde, Pazartesi–Cumartesi 13:00–19:00. Çocuk seanslarımız her zaman yüz yüze.</p>
+  </div>
+</div>
+</section>
+
+<!-- 8 · EKİP -->
+<section class="team" aria-label="Ekibimiz">
+<div class="team-in">
+  <h2>Psikologlarımızdan biri seanstayken diğeri hep çocuklarla</h2>
+  <div class="people">
+    <div class="person"><img src="assets/img/gulsah.jpg" alt="Psikolog Gülşah Göçen" loading="lazy"><h3>Gülşah Göçen</h3><p>Psikolog, yoga eğitmeni</p></div>
+    <div class="person"><img src="assets/img/dilge.jpg" alt="Psikolog Dilge Karakaşoğlu" loading="lazy"><h3>Dilge Karakaşoğlu</h3><p>Psikolog</p></div>
+    <div class="person"><img src="assets/img/barbaros.jpg" alt="Barbaros Barış Eken" loading="lazy"><h3>Barbaros Barış Eken</h3><p>Spor eğitmeni</p></div>
+  </div>
+</div>
+</section>
+
+<!-- 9 · FİLM + RANDEVU -->
+<section class="final" aria-label="Ön görüşme">
+<div class="final-in">
+  <div>
+    <h2>Ön kayıtlarımız başladı</h2>
+    <p>Ücretsiz ön görüşmede çocuğunuzu ve ihtiyaçlarınızı dinliyoruz. Görüşme yalnızca veliyle yapılır, dilerseniz online.</p>
+    <div class="btns"><a class="a1" href="randevu.html">Ücretsiz ön görüşme planla</a><a class="a2" href="https://wa.me/905533412912?text=Merhaba%2C%20Masal%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener">WhatsApp'tan yaz</a></div>
+  </div>
+  <video src="assets/video/masal-tanitim.mp4" poster="assets/img/masal-tanitim-poster.jpg" controls playsinline preload="none" aria-label="Masal tanıtım filmi"></video>
+</div>
+<p class="foot">Masal Çocuk Atölye Evi · 127/12. Sokak No:4, Evka 3, Bornova / İzmir · 0553 341 29 12 · <a href="index.html">Ana sayfaya dön</a></p>
+</section>
+
+</main>
+
+<script>
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var clamp = function (x, a, b) { return Math.max(a === undefined ? 0 : a, Math.min(b === undefined ? 1 : b, x)); };
+  var seg = function (p, a, b) { return clamp((p - a) / (b - a)); };
+  var ease = function (x) { return 1 - Math.pow(1 - x, 3); };
+  var lerp = function (a, b, t) { return a + (b - a) * t; };
+  function prog(el) {
+    var r = el.getBoundingClientRect(), h = el.offsetHeight - window.innerHeight;
+    return h <= 0 ? 1 : clamp(-r.top / h);
+  }
+  function inView(el) { var r = el.getBoundingClientRect(); return r.bottom > -200 && r.top < window.innerHeight + 200; }
+
+  /* ---------- hero ---------- */
+  var hero = document.getElementById('hero');
+  var letters = hero.querySelectorAll('.word span');
+  var start = [[-180, -140, -30], [-60, 160, 25], [20, -220, -15], [120, 180, 35], [220, -120, 20]];
+  var roof = document.getElementById('roofPath'), roofLen = roof.getTotalLength();
+  roof.style.strokeDasharray = roofLen;
+  var sub = document.getElementById('heroSub'), hint = document.getElementById('hint');
+  function drawHero(p) {
+    var k = ease(seg(p, 0, .55));
+    letters.forEach(function (s, i) {
+      var st = start[i], kk = ease(seg(p, i * .05, .5 + i * .05)), sc = Math.min(1, window.innerWidth / 1000);
+      s.style.transform = 'translate(' + lerp(st[0] * sc, 0, kk) + 'px,' + lerp(st[1] * sc, 0, kk) + 'px) rotate(' + lerp(st[2], 0, kk) + 'deg)';
+    });
+    roof.style.strokeDashoffset = roofLen * (1 - ease(seg(p, .35, .75)));
+    sub.style.opacity = seg(p, .55, .8); sub.style.transform = 'translateY(' + (1 - seg(p, .55, .8)) * 20 + 'px)';
+    hint.style.opacity = 1 - seg(p, 0, .15);
+  }
+
+  /* ---------- day ---------- */
+  var gun = document.getElementById('gun'), gunStage = document.getElementById('gunStage');
+  var sun = document.getElementById('sun'), clock = document.getElementById('clock');
+  var moments = gun.querySelectorAll('.moment');
+  var skies = [[0, [207, 232, 245]], [.35, [142, 201, 236]], [.65, [158, 205, 232]], [.85, [246, 194, 107]], [1, [190, 166, 224]]];
+  function sky(p) {
+    for (var i = 0; i < skies.length - 1; i++) {
+      var a = skies[i], b = skies[i + 1];
+      if (p <= b[0]) { var t = (p - a[0]) / (b[0] - a[0]); return 'rgb(' + a[1].map(function (v, j) { return Math.round(lerp(v, b[1][j], t)); }).join(',') + ')'; }
+    }
+    return 'rgb(190,166,224)';
+  }
+  function drawDay(p) {
+    gunStage.style.setProperty('--daysky', sky(p));
+    var ang = Math.PI * (1 - p), W = gunStage.clientWidth, H = gunStage.clientHeight;
+    var cx = W / 2 + Math.cos(ang) * W * .42, cy = H * .72 - Math.sin(ang) * H * .5;
+    sun.style.left = cx + 'px'; sun.style.top = cy + 'px';
+    var mins = Math.round((9 * 60 + p * 9 * 60) / 5) * 5;
+    clock.textContent = String(Math.floor(mins / 60)).padStart(2, '0') + ':' + String(mins % 60).padStart(2, '0');
+    moments.forEach(function (m) { var a = +m.dataset.a, b = +m.dataset.b; m.classList.toggle('on', p >= a && p < b); });
+  }
+
+  /* ---------- workshops ---------- */
+  var at = document.getElementById('atolye'), track = document.getElementById('track');
+  var cube = document.getElementById('cube'), drops = document.getElementById('drops').children, kite = document.getElementById('kite');
+  var cone = document.getElementById('cone'), scales = [];
+  (function buildCone() {
+    var ns = 'http://www.w3.org/2000/svg', rows = [[60, 20, 1], [44, 40, 2], [76, 40, 2], [36, 62, 3], [60, 62, 3], [84, 62, 3], [32, 86, 4], [56, 86, 4], [80, 86, 4], [44, 110, 5], [72, 110, 5], [58, 132, 6]];
+    var cols = ['#E58C9A', '#F2C14E', '#8DB580', '#7EC3E6', '#9B8BC4', '#E8795A'];
+    rows.forEach(function (r, i) {
+      var e = document.createElementNS(ns, 'ellipse');
+      e.setAttribute('cx', r[0]); e.setAttribute('cy', r[1]); e.setAttribute('rx', 16); e.setAttribute('ry', 13);
+      e.setAttribute('fill', '#A07850'); e.setAttribute('stroke', '#7A5A3A'); e.setAttribute('stroke-width', 2);
+      e.dataset.c = cols[i % cols.length]; cone.appendChild(e); scales.push(e);
+    });
+  })();
+  function drawAtolye(p) {
+    var max = track.scrollWidth - window.innerWidth;
+    track.style.transform = 'translateX(' + (-max * seg(p, .12, .92)) + 'px)';
+    cube.style.transform = 'rotateX(' + (-20 + p * 40) + 'deg) rotateY(' + (p * 540) + 'deg)';
+    var d = seg(p, .2, .5);
+    drops[0].style.transform = 'translate(' + d * 40 + 'px,' + d * 20 + 'px) scale(' + (.6 + d * .4) + ')';
+    drops[1].style.transform = 'translate(' + -d * 40 + 'px,' + d * 20 + 'px) scale(' + (.6 + d * .4) + ')';
+    drops[2].style.transform = 'translateY(' + -d * 30 + 'px) scale(' + (.6 + d * .4) + ')';
+    var c = seg(p, .45, .75);
+    scales.forEach(function (e, i) { e.setAttribute('fill', c * scales.length > i ? e.dataset.c : '#A07850'); });
+    var k = seg(p, .7, 1);
+    kite.style.transform = 'translate(' + k * 40 + 'px,' + (-k * 120) + 'px) rotate(' + (Math.sin(k * 12) * 8) + 'deg)';
+  }
+
+  /* ---------- tower ---------- */
+  var kule = document.getElementById('kule'), tower = document.getElementById('tower');
+  var legend = document.getElementById('legend').children, qcard = document.getElementById('qcard');
+  var COLS = ['#2F6F62', '#F2A93B', '#E8795A', '#1F3A5F', '#D9B98C'];
+  var LAYERS = 9, blocks = [];
+  var u = 0;
+  function shade(hex, f) { var n = parseInt(hex.slice(1), 16), r = n >> 16, g = (n >> 8) & 255, b = n & 255; return 'rgb(' + [r, g, b].map(function (v) { return Math.round(Math.min(255, v * f)); }).join(',') + ')'; }
+  function buildTower() {
+    tower.innerHTML = ''; blocks = [];
+    u = window.innerWidth < 700 ? 30 : 52;
+    var L = 3 * u, D = u * .96, Hh = u * .6, seq = [0, 1, 4, 2, 3, 4, 1, 0, 2, 3, 4, 0, 2, 1, 3, 4, 2, 0, 3, 1, 4, 2, 0, 1, 3, 4, 2];
+    var n = 0;
+    for (var l = 0; l < LAYERS; l++) {
+      for (var j = 0; j < 3; j++) {
+        var col = COLS[seq[n++ % seq.length]];
+        var b = document.createElement('div'); b.className = 'blk';
+        var alongX = l % 2 === 0;
+        var w = alongX ? L : D, d = alongX ? D : L;
+        var faces = [
+          ['translate3d(0,' + (-Hh) + 'px,0) rotateX(90deg)', w, d, 1.12],
+          ['translate3d(0,0,' + (d / 2) + 'px)', w, Hh, 1],
+          ['translate3d(0,0,' + (-d / 2) + 'px) rotateY(180deg)', w, Hh, .9],
+          ['translate3d(' + (w / 2) + 'px,0,0) rotateY(90deg)', d, Hh, .8],
+          ['translate3d(' + (-w / 2) + 'px,0,0) rotateY(-90deg)', d, Hh, .8]
+        ];
+        faces.forEach(function (f, fi) {
+          var i = document.createElement('i');
+          i.style.width = f[1] + 'px'; i.style.height = f[2] + 'px';
+          i.style.left = (-f[1] / 2) + 'px'; i.style.top = (fi === 0 ? -f[2] / 2 : -f[2]) + 'px';
+          i.style.transform = f[0];
+          if (fi === 0) i.style.transformOrigin = '50% 50%';
+          i.style.background = shade(col, f[3]);
+          b.appendChild(i);
+        });
+        var off = (j - 1) * D * 1.03;
+        b.dataset.x = alongX ? 0 : off; b.dataset.z = alongX ? off : 0; b.dataset.y = -l * (Hh + 2);
+        b.dataset.l = l; b.dataset.ax = alongX ? 1 : 0;
+        tower.appendChild(b); blocks.push(b);
+      }
+    }
+  }
+  buildTower();
+  var lastW = window.innerWidth;
+  window.addEventListener('resize', function () { if (Math.abs(window.innerWidth - lastW) > 80) { lastW = window.innerWidth; buildTower(); tick(true); } });
+  var PULL = 3 * 4 + 1; // layer 4, middle block
+  function drawKule(p) {
+    var rot = -35 + p * 120;
+    tower.style.transform = 'rotateX(-18deg) rotateY(' + rot + 'deg)';
+    var n = blocks.length;
+    blocks.forEach(function (b, i) {
+      var t0 = .02 + (i / n) * .55, k = ease(seg(p, t0, t0 + .08));
+      var fall = (1 - k) * -700;
+      var x = +b.dataset.x, z = +b.dataset.z, y = +b.dataset.y + fall;
+      if (i === PULL) {
+        var s = ease(seg(p, .7, .82)) * u * 3.4;
+        if (+b.dataset.ax) x += s; else z += s;
+      }
+      b.style.transform = 'translate3d(' + x + 'px,' + y + 'px,' + z + 'px)';
+      b.style.opacity = k > 0 ? 1 : 0;
+    });
+    for (var i = 0; i < legend.length; i++) legend[i].classList.toggle('on', p > .15 + i * .1);
+    qcard.classList.toggle('on', p > .82);
+  }
+
+  /* ---------- difference ---------- */
+  var fark = document.getElementById('fark');
+  var steps = fark.querySelectorAll('.f-step'), fvs = fark.querySelectorAll('.fv');
+  var bub = document.getElementById('bub'), sheet = document.getElementById('sheet'), drawPaths = document.querySelectorAll('#draw path, #draw circle');
+  drawPaths.forEach(function (pth) { var L = pth.getTotalLength ? pth.getTotalLength() : 300; pth.style.strokeDasharray = L; pth.dataset.len = L; });
+  function drawFark(p) {
+    var idx = p < .34 ? 0 : p < .67 ? 1 : 2;
+    steps.forEach(function (s, i) { s.classList.toggle('on', i === idx); });
+    fvs.forEach(function (s, i) { s.classList.toggle('on', i === idx); });
+    var a = ease(seg(p, .05, .2)); bub.style.transform = 'scale(' + (.6 + .4 * a) + ')'; bub.style.opacity = a;
+    var b = ease(seg(p, .36, .55)); sheet.style.transform = 'perspective(900px) rotateX(' + (1 - b) * 80 + 'deg)';
+    var c = seg(p, .68, .95);
+    drawPaths.forEach(function (pth, i) { var L = +pth.dataset.len, k = clamp(c * drawPaths.length - i); pth.style.strokeDashoffset = L * (1 - k); });
+  }
+
+  /* ---------- wheel ---------- */
+  var cark = document.getElementById('cark'), ballsBox = document.getElementById('balls'), prizes = document.getElementById('prizes').children;
+  var BC = ['#F2C14E', '#8DB580', '#7EC3E6'];
+  var balls = BC.map(function (c) { var e = document.createElement('i'); e.style.background = c; ballsBox.appendChild(e); return e; });
+  function drawCark(p) {
+    balls.forEach(function (e, i) {
+      var t0 = .12 + i * .26, k = seg(p, t0, t0 + .12), out = seg(p, t0 + .2, t0 + .26);
+      var bounce = k < 1 ? ease(k) : 1;
+      var y = lerp(62, 76.5, bounce) - (k > .75 && k < 1 ? Math.sin((k - .75) / .25 * Math.PI) * 2 : 0);
+      e.style.top = y + '%';
+      e.style.opacity = k > 0 ? 1 - out : 0;
+      e.style.transform = 'translateX(' + (-out * 260) + '%) scale(' + (1 - out * .4) + ')';
+    });
+    for (var i = 0; i < prizes.length; i++) prizes[i].classList.toggle('on', p > .12 + i * .26 + .2);
+  }
+
+  /* ---------- therapy parallax ---------- */
+  var th = document.getElementById('thImg');
+  function drawTh() { var r = th.getBoundingClientRect(), t = clamp(1 - (r.top + r.height) / (window.innerHeight + r.height)); th.style.setProperty('--z', (1.18 - t * .18).toFixed(3)); }
+
+  var scenes = [[hero, drawHero], [gun, drawDay], [at, drawAtolye], [kule, drawKule], [fark, drawFark], [cark, drawCark]];
+  function tick(force) {
+    scenes.forEach(function (s) { if (force || inView(s[0])) s[1](reduce ? 1 : prog(s[0])); });
+    if (!reduce) drawTh();
+  }
+  if (reduce) {
+    scenes.forEach(function (s) { s[1](1); });
+    gun.querySelectorAll('.moment').forEach(function (m) { m.classList.add('on'); m.style.position = 'relative'; m.style.transform = 'none'; m.style.marginBottom = '12px'; });
+    document.querySelectorAll('.fv').forEach(function (f) { f.classList.add('on'); f.style.position = 'relative'; });
+    return;
+  }
+  var ticking = false;
+  window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(function () { ticking = false; tick(); }); } }, { passive: true });
+  window.addEventListener('resize', function () { tick(true); });
+  tick(true);
+})();
+</script>
+</body>
+</html>
