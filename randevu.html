@@ -348,8 +348,8 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
         : (s.free ? 'Sizi Bornova Evka 3’teki evimizde bekliyoruz.' : 'Sizi Bornova Evka 3’teki evimizde bekliyoruz. Seans ücretini (' + s.price + ') seans günü kartla veya nakit olarak ödeyebilirsiniz.');
       $('iban-box').hidden = !(m.id === 'online' && !s.free);
       $('iban-price').textContent = s.price || '';
-      openWA();
       mailNotify();
+      openWA();
       go(4);
     }
     else if (t.id === 'wa-again') { e.preventDefault(); openWA(); }
