@@ -182,6 +182,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   // E-posta bildirimi (Web3Forms): talepler masalcocukatolyevi@gmail.com adresine gider. Bu anahtar herkese açık olabilir.
   var WEB3FORMS_KEY = '51c61d59-d941-4994-a657-9ae452226a9c';
   // Randevu tablosu (Google E-Tablolar · Apps Script web uygulaması adresi). Boşsa yalnızca DOLU listesi kullanılır.
+  var TABLO_LINK = 'https://docs.google.com/spreadsheets/d/1T5D3KTzKSqFNXrAkYH11buR9mcACdFk-k95WsFOZ7-I/edit#gid=651507836';
   var TABLO_URL = 'https://script.google.com/macros/s/AKfycbzg8CTLi8nQ7h2Nl3AA5QFgJgM1OP5McSmcnlNn4DAuJHgVvkjp6FDpnEZI5hH4_Mp_9g/exec';
   var UZAK = {};   // 'YYYY-AA-GG SS:DD' ya da 'YYYY-AA-GG' → 'bekliyor' | 'dolu'
   var IBAN = 'TR060006400000134890278568';
@@ -338,6 +339,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
         access_key: WEB3FORMS_KEY,
         subject: 'Yeni randevu: ' + s.title + ' (' + m.title + ') · ' + st.pick.when + ' · ' + v('r-veli'),
         from_name: 'Masal Online Randevu',
+        'Onaylamak için tabloyu açın': TABLO_LINK,
         'Hizmet': s.title, 'Görüşme şekli': m.title, 'Tarih / saat': st.pick.when,
         'Veli': v('r-veli'), 'Telefon': v('r-tel'), 'E-posta': v('r-mail') || '-',
         'Çocuk': (v('r-cocuk') || '-') + ' (' + $('r-yas').value + ' yaş)', 'Not': v('r-not') || '-'
