@@ -306,7 +306,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       var s = svc(), m = mode(), v = function (id) { return $(id).value.trim(); };
       var data = {
         access_key: WEB3FORMS_KEY,
-        subject: 'Yeni randevu talebi: ' + s.title + ' · ' + st.pick.when,
+        subject: 'Yeni randevu: ' + s.title + ' (' + m.title + ') · ' + st.pick.when + ' · ' + v('r-veli'),
         from_name: 'Masal Online Randevu',
         'Hizmet': s.title, 'Görüşme şekli': m.title, 'Tarih / saat': st.pick.when,
         'Veli': v('r-veli'), 'Telefon': v('r-tel'), 'E-posta': v('r-mail') || '-',
