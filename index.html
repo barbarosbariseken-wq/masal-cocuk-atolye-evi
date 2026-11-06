@@ -869,7 +869,7 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 <div style="display: flex; flex-direction: column; gap: 12px; max-width: 44rem">
 <span style="color: #B4532F; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; font-size: 14px">Aylık Menü</span>
 <h2 style="margin: 0; font-family: 'Fredoka', sans-serif; font-weight: 600; font-size: clamp(32px, 4vw, 44px); line-height: 1.15">Kahvaltı ve öğle yemeği bizden</h2>
-<p style="margin: 0; color: #3D4F5C">Tam gün programımızda kahvaltıyı, öğle yemeğini ve ikindi atıştırmalığını her gün taze, ev yapımı olarak hazırlıyoruz. Şeker ve tuzu sınırlı tutuyor, paketli gıda kullanmıyoruz. Her ayın menüsünü ay başında burada ve WhatsApp grubumuzda paylaşıyoruz.</p>
+<p style="margin: 0; color: #3D4F5C">Tam gün programımızda kahvaltı, öğle yemeği ve ikindi atıştırmalığı her gün taze olarak, gıda güvenliği belgeli bir yemek firmasından geliyor. Menüyü çocuklara uygun, şekeri ve tuzu sınırlı olacak şekilde firmayla birlikte hazırlıyoruz. Her ayın menüsünü ay başında burada ve WhatsApp grubumuzda paylaşıyoruz.</p>
 </div>
 <div style="display: flex; flex-direction: column; gap: 6px">
 <strong id="mn-ay" style="font-family: 'Fredoka', sans-serif; font-size: 24px; font-weight: 600"></strong>
@@ -886,27 +886,27 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
   var HAFTALAR = [
     { bas: '2026-11-09', gunler: [
       { k: 'Haşlanmış yumurta, beyaz peynir, domates, salatalık, zeytin, tam buğday ekmeği, süt', o: 'Mercimek çorbası, fırında tavuk ve sebze, bulgur pilavı, yoğurt', i: 'Mevsim meyvesi' },
-      { k: 'Sebzeli omlet, kaşar peyniri, salatalık, tam buğday ekmeği, ıhlamur', o: 'Domates çorbası, ev yapımı köfte, fırın patates, mevsim salatası', i: 'Ev yapımı havuçlu kek, süt' },
+      { k: 'Sebzeli omlet, kaşar peyniri, salatalık, tam buğday ekmeği, ıhlamur', o: 'Domates çorbası, köfte, fırın patates, mevsim salatası', i: 'Havuçlu kek, süt' },
       { k: 'Yulaf lapası (muz, tarçın), ceviz, süt', o: 'Yayla çorbası, zeytinyağlı taze fasulye, peynirli börek', i: 'Hurma topları', ozel: true },
       { k: 'Menemen, beyaz peynir, tam buğday ekmeği, süt', o: 'Sebze çorbası, etli nohut, pirinç pilavı, cacık', i: 'Elma dilimleri, tahin' },
       { k: 'Peynirli tost, domates, zeytin, süt', o: 'Tarhana çorbası, fırında balık köfte, sebzeli makarna', i: 'Yoğurt ve mevsim meyvesi' } ] },
     { bas: '2026-11-16', gunler: [
       { k: 'Haşlanmış yumurta, labne, pekmez ve tahin, salatalık, tam buğday ekmeği', o: 'Ezogelin çorbası, tavuk sote, bulgur pilavı, ayran', i: 'Mandalina' },
-      { k: 'Patatesli omlet, beyaz peynir, domates, ıhlamur', o: 'Brokoli çorbası, etli kuru fasulye, pirinç pilavı, yoğurt', i: 'Ev yapımı elmalı kurabiye, süt' },
+      { k: 'Patatesli omlet, beyaz peynir, domates, ıhlamur', o: 'Brokoli çorbası, etli kuru fasulye, pirinç pilavı, yoğurt', i: 'Elmalı kurabiye, süt' },
       { k: 'Yulaf lapası (elma, tarçın), fındık, süt', o: 'Mercimek çorbası, zeytinyağlı pırasa, peynirli pide', i: 'Kakaolu hurma topları', ozel: true },
       { k: 'Haşlanmış yumurta, kaşar peyniri, salatalık, zeytin, süt', o: 'Domates çorbası, fırında köfte ve sebze, bulgur pilavı', i: 'Muz ve yoğurt' },
       { k: 'Kaşarlı gözleme, domates, süt', o: 'Yayla çorbası, tavuklu sebzeli makarna, mevsim salatası', i: 'Mevsim meyvesi' } ] },
     { bas: '2026-11-23', gunler: [
       { k: 'Menemen, beyaz peynir, tam buğday ekmeği, süt', o: 'Şehriye çorbası, fırında tavuk baget, sebzeli pirinç pilavı, yoğurt', i: 'Armut' },
-      { k: 'Haşlanmış yumurta, labne, domates, salatalık, ıhlamur', o: 'Sebze çorbası, ev yapımı mantı, yoğurt', i: 'Ev yapımı muzlu kek, süt' },
+      { k: 'Haşlanmış yumurta, labne, domates, salatalık, ıhlamur', o: 'Sebze çorbası, mantı, yoğurt', i: 'Muzlu kek, süt' },
       { k: 'Yulaf lapası (muz, kakao), ceviz, süt', o: 'Mercimek çorbası, zeytinyağlı ıspanak, bulgur pilavı, yoğurt', i: 'Vişneli hurma topları', ozel: true },
       { k: 'Peynirli omlet, salatalık, zeytin, tam buğday ekmeği, süt', o: 'Tarhana çorbası, etli patates yemeği, pirinç pilavı, cacık', i: 'Elma dilimleri, fıstık ezmesi' },
       { k: 'Peynirli tost, domates, süt', o: 'Domates çorbası, fırında balık, fırın patates, mevsim salatası', i: 'Yoğurt ve mevsim meyvesi' } ] },
     { bas: '2026-11-30', gunler: [
       { k: 'Haşlanmış yumurta, beyaz peynir, domates, salatalık, zeytin, süt', o: 'Ezogelin çorbası, tavuk sote, bulgur pilavı, ayran', i: 'Mandalina' },
-      { k: 'Sebzeli omlet, kaşar peyniri, tam buğday ekmeği, ıhlamur', o: 'Yayla çorbası, karnıyarık (kıymalı), pirinç pilavı', i: 'Ev yapımı havuçlu kek, süt' },
+      { k: 'Sebzeli omlet, kaşar peyniri, tam buğday ekmeği, ıhlamur', o: 'Yayla çorbası, karnıyarık (kıymalı), pirinç pilavı', i: 'Havuçlu kek, süt' },
       { k: 'Yulaf lapası (elma, tarçın), fındık, süt', o: 'Mercimek çorbası, zeytinyağlı taze fasulye, peynirli börek', i: 'Muzlu hurma topları', ozel: true },
-      { k: 'Menemen, labne, tam buğday ekmeği, süt', o: 'Sebze çorbası, ev yapımı köfte, fırın patates, cacık', i: 'Muz ve yoğurt' },
+      { k: 'Menemen, labne, tam buğday ekmeği, süt', o: 'Sebze çorbası, köfte, fırın patates, cacık', i: 'Muz ve yoğurt' },
       { k: 'Kaşarlı gözleme, domates, süt', o: 'Brokoli çorbası, tavuklu sebzeli makarna, mevsim salatası', i: 'Mevsim meyvesi' } ] }
   ];
   window.MASAL_MENU = { ay: AY, haftalar: HAFTALAR };
