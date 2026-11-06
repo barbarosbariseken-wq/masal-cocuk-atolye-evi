@@ -91,6 +91,32 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
 </div>
 </header>
 
+<!-- BUGÜN MASAL'DA · KAYAN BANT -->
+<style>
+.tk{background:#1F3A5F;color:#FFFFFF;display:flex;align-items:stretch;font-size:15px;line-height:1.3;border-bottom:3px solid #FFD27A;position:relative}
+.tk-lbl{flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:10px 16px;background:#E8735F;font-family:'Fredoka',sans-serif;font-weight:600;font-size:16px;white-space:nowrap;position:relative;z-index:1}
+.tk-dot{width:9px;height:9px;border-radius:50%;background:#FFFFFF;animation:tkp 1.6s ease-in-out infinite}
+@keyframes tkp{50%{opacity:.25}}
+.tk-win{flex:1 1 auto;overflow:hidden;min-width:0;display:flex;align-items:center;-webkit-mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,transparent,#000 28px,#000 calc(100% - 28px),transparent)}
+.tk-track{display:flex;width:max-content;animation:tkm var(--tkd,60s) linear infinite}
+.tk:hover .tk-track,.tk:focus-within .tk-track,.tk.paused .tk-track{animation-play-state:paused}
+@keyframes tkm{to{transform:translateX(-50%)}}
+.tk-list{display:flex;align-items:center;margin:0;padding:0;list-style:none}
+.tk-it{display:flex;align-items:center;gap:8px;padding:10px 26px;white-space:nowrap;border-right:1px solid #FFFFFF2E}
+.tk-it b{font-size:12px;letter-spacing:.08em;color:#FFD27A}
+.tk-it a{color:#FFFFFF;text-decoration:none}
+.tk-it a:hover,.tk-it a:focus-visible{text-decoration:underline}
+.tk-btn{flex:0 0 auto;width:44px;border:0;background:#17304F;color:#FFFFFF;cursor:pointer;font-size:14px}
+.tk-btn:focus-visible{outline:3px solid #FFD27A;outline-offset:-3px}
+@media (prefers-reduced-motion: reduce){.tk-track{animation:none}.tk-win{overflow-x:auto}.tk-list[aria-hidden]{display:none}.tk-btn,.tk-dot{display:none}}
+@media (max-width:600px){.tk-lbl{padding:10px 12px;font-size:14px}.tk-lbl .tk-tarih{display:none}}
+</style>
+<div class="tk" id="tk" role="region" aria-label="Bugün Masal'da">
+<div class="tk-lbl"><span class="tk-dot" aria-hidden="true"></span><span>Bugün Masal'da</span><span class="tk-tarih" id="tk-tarih" style="font-family:'Nunito Sans',sans-serif;font-weight:700;font-size:13px;opacity:.9"></span></div>
+<div class="tk-win"><div class="tk-track" id="tk-track"><ul class="tk-list" id="tk-list"></ul></div></div>
+<button type="button" class="tk-btn" id="tk-btn" aria-label="Kayan bandı durdur">❚❚</button>
+</div>
+
 <!-- HERO -->
 <section id="top" style="background: #2F6F62; color: #FFFFFF; overflow: hidden">
 <div style="max-width: 1200px; margin: 0 auto; padding: 80px 24px 96px; display: flex; flex-wrap: wrap; align-items: center; gap: 48px">
@@ -883,6 +909,7 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
       { k: 'Menemen, labne, tam buğday ekmeği, süt', o: 'Sebze çorbası, ev yapımı köfte, fırın patates, cacık', i: 'Muz ve yoğurt' },
       { k: 'Kaşarlı gözleme, domates, süt', o: 'Brokoli çorbası, tavuklu sebzeli makarna, mevsim salatası', i: 'Mevsim meyvesi' } ] }
   ];
+  window.MASAL_MENU = { ay: AY, haftalar: HAFTALAR };
   var GUN = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma'];
   var AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
   var tabs = document.getElementById('mn-tabs'), grid = document.getElementById('mn-grid');
@@ -1095,6 +1122,62 @@ a{color:#1F3A5F}a:hover{color:#0F223B}
       else if (e.key === 'ArrowRight') show(cur + 1);
     });
   }
+})();
+</script>
+<script>
+(function () {
+  // KAYAN BANT: atölye programı ve etkinlik tarihleri burada; menü, Aylık Menü bölümünden otomatik gelir.
+  var ATOLYE = { 1: '3D figür boyama', 2: 'Sulu boya atölyesi', 3: 'Sağlıklı atıştırmalık günü', 4: 'Kozalak boyama ya da uçurtma yapımı', 5: 'Masal saati', 6: 'Açık hava spor buluşması' };
+  var ETKINLIK = [
+    { t: '2026-11-07', ad: 'Açılış ve Tanışma Günü', not: '11:00–15:00' },
+    { t: '2026-11-10', ad: "Atatürk'ü Anıyoruz", not: '09:05 saygı duruşu' },
+    { t: '2026-11-13', ad: 'Film Gecesi', not: 'Patlamış mısır bizden' },
+    { t: '2026-11-14', ad: 'Açık Hava Spor Buluşması', not: 'Parkta takım oyunları', spor: true },
+    { t: '2026-11-20', ad: 'Dünya Çocuk Hakları Günü', not: 'Resim atölyesi' },
+    { t: '2026-11-24', ad: 'Öğretmenler Günü', not: 'Kart atölyesi' },
+    { t: '2026-11-27', ad: 'Film Gecesi', not: 'Patlamış mısır bizden' },
+    { t: '2026-11-28', ad: 'Açık Hava Spor Buluşması', not: 'Parkta takım oyunları', spor: true }
+  ];
+  var AYLAR = ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
+  var GUNLER = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+  var d0 = new Date(); d0.setHours(0, 0, 0, 0);
+  var tarih = function (s) { var p = s.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); };
+  var fmt = function (d) { return d.getDate() + ' ' + AYLAR[d.getMonth()]; };
+  var esc = function (t) { var e = document.createElement('span'); e.textContent = t; return e.innerHTML; };
+  var it = [], gun = d0.getDay();
+  var add = function (k, txt, href) { it.push('<li class="tk-it"><b>' + k + '</b>' + (href ? '<a href="' + href + '">' + esc(txt) + '</a>' : '<span>' + esc(txt) + '</span>')); };
+  document.getElementById('tk-tarih').textContent = '· ' + fmt(d0) + ' ' + GUNLER[gun];
+  var bugunEtk = ETKINLIK.filter(function (e) { return tarih(e.t).getTime() === d0.getTime(); });
+  bugunEtk.forEach(function (e) { add(e.spor ? 'SPOR' : 'BUGÜN', e.ad + ' · ' + e.not, '#etkinlikler'); });
+  if (gun === 0) add('PAZAR', 'Bugün kapalıyız, yarın görüşmek üzere!');
+  else if (gun >= 1 && gun <= 5) add('ATÖLYE', ATOLYE[gun], '#atolyeler');
+  else if (!bugunEtk.length) add('ATÖLYE', 'Hafta sonu atölyesi', '#atolyeler');
+  var M = window.MASAL_MENU, bulundu = false;
+  if (M && gun >= 1 && gun <= 5) M.haftalar.forEach(function (w) {
+    var i = Math.round((d0 - tarih(w.bas)) / 864e5);
+    if (i >= 0 && i < 5) { var g = w.gunler[i]; bulundu = true;
+      add('KAHVALTI', g.k, '#menu'); add('ÖĞLE YEMEĞİ', g.o, '#menu'); add('İKİNDİ', g.i, '#menu'); }
+  });
+  if (!bulundu && M) add('MENÜ', M.ay + ' sitemizde', '#menu');
+  var sonraki = ETKINLIK.filter(function (e) { return tarih(e.t) > d0; });
+  var spor = sonraki.filter(function (e) { return e.spor; })[0];
+  if (spor && !bugunEtk.some(function (e) { return e.spor; })) add('SPOR', fmt(tarih(spor.t)) + ' ' + GUNLER[tarih(spor.t).getDay()] + ' · ' + spor.ad, '#etkinlikler');
+  sonraki.filter(function (e) { return !e.spor; }).slice(0, 3).forEach(function (e) {
+    var d = tarih(e.t); add('YAKINDA', fmt(d) + ' ' + GUNLER[d.getDay()] + ' · ' + e.ad, '#etkinlikler');
+  });
+  add('ÖN KAYIT', 'Ücretsiz ön görüşme için online randevu alın', 'randevu.html');
+  var list = document.getElementById('tk-list'), track = document.getElementById('tk-track');
+  list.innerHTML = it.join('');
+  var kopya = list.cloneNode(true); kopya.removeAttribute('id'); kopya.setAttribute('aria-hidden', 'true');
+  kopya.querySelectorAll('a').forEach(function (a) { a.tabIndex = -1; });
+  track.appendChild(kopya);
+  var hiz = function () { track.style.setProperty('--tkd', Math.max(20, list.scrollWidth / 55) + 's'); };
+  hiz(); window.addEventListener('load', hiz);
+  var bar = document.getElementById('tk'), btn = document.getElementById('tk-btn');
+  btn.addEventListener('click', function () {
+    var p = bar.classList.toggle('paused');
+    btn.textContent = p ? '▶' : '❚❚'; btn.setAttribute('aria-label', p ? 'Kayan bandı başlat' : 'Kayan bandı durdur');
+  });
 })();
 </script>
 </body>
