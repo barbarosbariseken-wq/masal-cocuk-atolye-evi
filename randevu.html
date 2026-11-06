@@ -49,6 +49,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
 .cell[aria-pressed="true"]{background:#2F6F62;color:#FFFFFF}
 .cell:disabled{border:0;background:#E4E8E7;color:#6B7B86;cursor:not-allowed}
 .cell.full:disabled{background:#FBE1D8;color:#9A3B24}
+.cell.pend:disabled{background:#FFF1C9;color:#7A5A00}
 .field{display:flex;flex-direction:column;gap:6px}
 .field label{font-weight:700;font-size:15px}
 .field input,.field select,.field textarea{min-height:48px;border:1px solid #B8C9C4;border-radius:12px;padding:0 14px;font:inherit;background:#FFFFFF}
@@ -107,6 +108,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
 <div class="legend">
 <span><i class="sw" style="border:2px solid #2F6F62;background:#E3F2EC"></i>Müsait</span>
 <span><i class="sw" style="background:#2F6F62"></i>Seçili</span>
+<span><i class="sw" style="background:#FFF1C9"></i>Onay bekliyor</span>
 <span><i class="sw" style="background:#FBE1D8"></i>Dolu</span>
 <span><i class="sw" style="background:#E4E8E7"></i>Geçmiş / Tatil</span>
 </div>
@@ -179,6 +181,9 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   var WHATSAPP = '905533412912';
   // E-posta bildirimi (Web3Forms): talepler masalcocukatolyevi@gmail.com adresine gider. Bu anahtar herkese açık olabilir.
   var WEB3FORMS_KEY = '51c61d59-d941-4994-a657-9ae452226a9c';
+  // Randevu tablosu (Google E-Tablolar · Apps Script web uygulaması adresi). Boşsa yalnızca DOLU listesi kullanılır.
+  var TABLO_URL = '';
+  var UZAK = {};   // 'YYYY-AA-GG SS:DD' ya da 'YYYY-AA-GG' → 'bekliyor' | 'dolu'
   var IBAN = 'TR060006400000134890278568';
   var HOURS = ['13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
   var WEEKS_AHEAD = 4;
@@ -250,12 +255,15 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       days.forEach(function (d) {
         var start = new Date(d.getFullYear(), d.getMonth(), d.getDate(), parseInt(h, 10));
         var ymd = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-        var hol = isHoliday(d), past = start <= now, full = DOLU.indexOf(ymd + ' ' + h) >= 0 || DOLU.indexOf(ymd) >= 0;
+        var uz = UZAK[ymd + ' ' + h] || UZAK[ymd];
+        var hol = isHoliday(d), past = start <= now, full = DOLU.indexOf(ymd + ' ' + h) >= 0 || DOLU.indexOf(ymd) >= 0 || uz === 'dolu';
+        var pend = !full && uz === 'bekliyor';
         var key = d.toDateString() + ' ' + h;
         var on = st.pick && st.pick.key === key;
-        var label = hol ? 'Tatil' : past ? '—' : full ? 'Dolu' : on ? 'Seçildi' : 'Müsait';
+        if (pend && on) { st.pick = null; on = false; }
+        var label = hol ? 'Tatil' : past ? '—' : full ? 'Dolu' : pend ? 'Bekliyor' : on ? 'Seçildi' : 'Müsait';
         var when = d.getDate() + ' ' + MONTHS[d.getMonth()] + ' ' + DAYS[d.getDay()] + ', ' + h + '–' + end;
-        html += '<button type="button" class="cell' + (full && !hol && !past ? ' full' : '') + '" data-key="' + esc(key) + '" data-when="' + esc(when) + '"' + (hol || past || full ? ' disabled' : '') + ' aria-pressed="' + !!on + '" aria-label="' + esc(when + ', ' + label) + '">' + label + '</button>';
+        html += '<button type="button" class="cell' + (full && !hol && !past ? ' full' : pend && !hol && !past ? ' pend' : '') + '" data-key="' + esc(key) + '" data-ymd="' + ymd + '" data-h="' + h + '" data-when="' + esc(when) + '"' + (hol || past || full || pend ? ' disabled' : '') + ' aria-pressed="' + !!on + '" aria-label="' + esc(when + ', ' + (pend ? 'onay bekliyor' : label)) + '">' + label + '</button>';
       });
     });
     $('grid').innerHTML = html;
@@ -301,6 +309,28 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       (v('r-cocuk') ? 'Çocuk: ' + v('r-cocuk') + ' (' + $('r-yas').value + ' yaş)\n' : 'Çocuğun yaşı: ' + $('r-yas').value + '\n') +
       (v('r-not') ? '\nNot: ' + v('r-not') : '');
   }
+  function tabloOku() {
+    if (!TABLO_URL) return;
+    fetch(TABLO_URL + '?t=' + Date.now()).then(function (r) { return r.json(); }).then(function (j) {
+      if (!j || !j.slots) return;
+      var m = {};
+      j.slots.forEach(function (x) { var k = x.s ? x.t + ' ' + x.s : x.t; if (m[k] !== 'dolu') m[k] = x.d; });
+      UZAK = m; renderGrid();
+    }).catch(function () {});
+  }
+  function tabloYaz() {
+    if (!TABLO_URL || !st.pick) return;
+    try {
+      var s = svc(), m = mode(), v = function (id) { return $(id).value.trim(); };
+      fetch(TABLO_URL, {
+        method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ tarih: st.pick.ymd, saat: st.pick.h, hizmet: s.title, sekil: m.title, veli: v('r-veli'), telefon: v('r-tel'),
+          eposta: v('r-mail'), cocuk: v('r-cocuk'), yas: $('r-yas').value, not: v('r-not') })
+      }).catch(function () {});
+      UZAK[st.pick.ymd + ' ' + st.pick.h] = 'bekliyor';
+    } catch (x) {}
+  }
   function mailNotify() {
     try {
       var s = svc(), m = mode(), v = function (id) { return $(id).value.trim(); };
@@ -326,8 +356,8 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
     if (!t) return;
     if (t.dataset.svc) { st.service = t.dataset.svc; renderCards(); }
     else if (t.dataset.mode) { if (!t.disabled) { st.mode = t.dataset.mode; renderCards(); } }
-    else if (t.dataset.key) { st.pick = { key: t.dataset.key, when: t.dataset.when }; renderGrid(); }
-    else if (t.id === 'next1') go(2);
+    else if (t.dataset.key) { st.pick = { key: t.dataset.key, when: t.dataset.when, ymd: t.dataset.ymd, h: t.dataset.h }; renderGrid(); }
+    else if (t.id === 'next1') { go(2); tabloOku(); }
     else if (t.id === 'next2') go(3);
     else if (t.id === 'back2') go(1);
     else if (t.id === 'back3') go(2);
@@ -348,6 +378,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
         : (s.free ? 'Sizi Bornova Evka 3’teki evimizde bekliyoruz.' : 'Sizi Bornova Evka 3’teki evimizde bekliyoruz. Seans ücretini (' + s.price + ') seans günü kartla veya nakit olarak ödeyebilirsiniz.');
       $('iban-box').hidden = !(m.id === 'online' && !s.free);
       $('iban-price').textContent = s.price || '';
+      tabloYaz();
       mailNotify();
       openWA();
       go(4);
@@ -364,6 +395,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
   });
 
   render();
+  tabloOku();
 })();
 </script>
 </body>
