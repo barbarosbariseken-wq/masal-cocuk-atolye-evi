@@ -126,12 +126,19 @@ def s_why(t):
 # ---------------- 4 · Bir günümüz ----------------
 DAY = [('09:00', 'Kahvaltı', 'Güne aynı sofrada başlıyoruz', (255, 236, 200), 'cup'),
        ('10:00', 'Öğrenme ve keşif', 'Kavramlar ve günün atölyesi', (214, 236, 248), 'blocks'),
+       ('11:00', 'Günün atölyesi', '', (255, 232, 214), 'palette'),
        ('12:30', 'Öğle yemeği', 'Ardından sakin bir dinlenme', (205, 232, 246), 'bowl'),
        ('15:00', 'Oyun ve hareket', 'Temel hareket eğitmenlerimizle', (252, 222, 196), 'ball'),
        ('17:30', 'Veda', 'Sürpriz çarkını çevir, eve dön', (226, 214, 244), 'home')]
 DSEG = 2.3
 def icon(d, kind, cx, cy, s, t):
-    if kind == 'cup':
+    if kind == 'palette':
+        d.ellipse([cx - 190 * s, cy - 140 * s, cx + 190 * s, cy + 140 * s], fill=WHITE)
+        d.ellipse([cx + 50 * s, cy + 30 * s, cx + 130 * s, cy + 105 * s], fill=(255, 232, 214))
+        for j, (dx, dy, c) in enumerate([(-110, -40, PINK), (-30, -90, YEL), (60, -70, BLUE), (-115, 55, LILAC), (-20, 40, GREEN)]):
+            rr = (34 + 6 * math.sin(t * 5 + j)) * s
+            d.ellipse([cx + dx * s - rr, cy + dy * s - rr, cx + dx * s + rr, cy + dy * s + rr], fill=c)
+    elif kind == 'cup':
         d.rounded_rectangle([cx - 120 * s, cy - 60 * s, cx + 90 * s, cy + 110 * s], 40 * s, fill=CORAL)
         d.arc([cx + 50 * s, cy - 30 * s, cx + 160 * s, cy + 70 * s], -90, 90, fill=CORAL, width=int(26 * s))
         for k in (-50, 20):
@@ -161,12 +168,12 @@ def icon(d, kind, cx, cy, s, t):
         d.ellipse([hx - 2 * hr, hy - hr * 1.6, hx, hy + hr * .4], fill=PINK); d.ellipse([hx, hy - hr * 1.6, hx + 2 * hr, hy + hr * .4], fill=PINK)
         d.polygon([(hx - hr * 1.93, hy - hr * .35), (hx + hr * 1.93, hy - hr * .35), (hx, hy + hr * 1.9)], fill=PINK)
 def s_day(t):
-    i = min(int(t / DSEG), 4); lt = t - i * DSEG
+    i = min(int(t / DSEG), len(DAY) - 1); lt = t - i * DSEG
     tm, ti, su, bg, ic = DAY[i]
     prev = DAY[i - 1][3] if i else bg
     fr = Image.new('RGB', (W, H), mix(prev, bg, ease(lt / 0.5))); d = ImageDraw.Draw(fr)
     # sun travelling along an arc
-    p = clamp(t / (DSEG * 5)); ang = math.pi * (1 - p)
+    p = clamp(t / (DSEG * len(DAY))); ang = math.pi * (1 - p)
     sx, sy = W / 2 + math.cos(ang) * 430, 1060 - math.sin(ang) * 330
     d.ellipse([sx - 60, sy - 60, sx + 60, sy + 60], fill=YEL)
     text_c(d, 270, 'Masal\'da bir gün', font('blk', 72), INK)
@@ -180,11 +187,16 @@ def s_day(t):
         im = lay.resize((int(W * s), int(520 * s)), Image.BICUBIC)
         paste_a(fr, im, (int(W / 2 - im.size[0] / 2), int(930 - im.size[1] / 2)), clamp((lt - 0.15) * 4))
     text_fade(fr, (0, 1240), ti, font('blk', 70), INK, (lt - 0.3) / 0.35, center=True)
-    text_fade(fr, (0, 1335), su, font('sb', 38), SOFT, (lt - 0.45) / 0.35, center=True)
+    if ic == 'palette':
+        names = ['3D figür boyama', 'Sulu boya', 'Kozalak boyama', 'Uçurtma yapımı']
+        k = min(int(max(0, lt - 0.45) / 0.62), 3); kt = max(0, lt - 0.45) - k * 0.62
+        text_fade(fr, (0, 1335), names[k], font('xb', 42), CORAL, kt / 0.2, center=True, dy=14)
+    else:
+        text_fade(fr, (0, 1335), su, font('sb', 38), SOFT, (lt - 0.45) / 0.35, center=True)
     # progress dots
-    for k in range(5):
+    for k in range(len(DAY)):
         c = INK if k <= i else (255, 255, 255)
-        d.ellipse([W / 2 - 90 + k * 40, 1450, W / 2 - 74 + k * 40, 1466], fill=c)
+        d.ellipse([W / 2 - 110 + k * 40, 1450, W / 2 - 94 + k * 40, 1466], fill=c)
     handle(fr, 1)
     return fr
 
@@ -305,7 +317,57 @@ def s_kc(t):
     handle(fr, 1)
     return fr
 
-STORIES = [('1-biz-kimiz-merhaba', s_intro, 7.0), ('2-biz-kimiz-ekibimiz', s_team, SEG * 3 + 0.4), ('3-biz-kimiz-neden-masal', s_why, 8.0),
+
+def s_cark(t):
+    fr = grad((242, 240, 240), (232, 236, 240)); d = ImageDraw.Draw(fr)
+    kinetic(fr, ['Gün sonunda', 'sürpriz çarkı!'], 260, t, 0.1, 0.18, font('blk', 84), INK, hl={'çarkı!'}, hlc=DGREEN, hl_text=WHITE)
+    text_fade(fr, (0, 490), 'Kendi 3D yazıcımızda ürettik', font('sb', 38), SOFT, (t - 0.8) / 0.4, center=True)
+    cw, ch = 480, 640
+    ph = cover(load('surpriz-cark.jpg'), cw, ch, 1.02 + 0.03 * t / 9, (0.5, 0.5))
+    x0, y0 = int(W / 2 - cw / 2), 570
+    paste_a(fr, ph, (x0, y0 + int((1 - ease((t - 0.3) / 0.5)) * 40)), clamp((t - 0.3) * 2.5), rmask((cw, ch), 40))
+    for k, c in enumerate([YEL, GREEN, BLUE]):
+        st = 1.6 + k * 1.9; q = clamp((t - st) / 0.5); outq = clamp((t - st - 1.1) / 0.4)
+        if q <= 0 or outq >= 1: continue
+        bs = cw * 0.11; bx = x0 + cw * 0.497 - bs / 2
+        by = y0 + ch * (0.62 + (0.765 - 0.62) * ease(q)) + outq * 40
+        d.ellipse([bx, by, bx + bs, by + bs], fill=c)
+    for k, (txt, c) in enumerate([('Küçük bir hediye', CORAL), ('Ailece bir görev', DGREEN), ('Öğretmeninden bir not', NAVY)]):
+        st = 2.2 + k * 1.9
+        if t > st: pill(fr, W / 2, 1250 + k * 92, txt, font('b', 38), c, WHITE, ease((t - st) / 0.3), pop((t - st) / 0.35), padx=30, pady=14)
+    handle(fr, 1)
+    return fr
+
+EV = [('sahne-ekip.jpg', 'Yıldız Kenter Sahnesi', (0.5, 0.35), -4), ('23nisan-poster.jpg', '23 Nisan kutlaması', (0.5, 0.55), 3),
+      ('yilbasi-1.jpg', 'Yılbaşı etkinliği', (0.5, 0.5), -2), ('yilbasi-2.jpg', 'Yılbaşı atölyesi', (0.5, 0.5), 4), ('atolye-1.jpg', 'Resim atölyesi', (0.5, 0.45), -3)]
+ESEG = 2.2
+_cards = {}
+def ev_card(i):
+    if i not in _cards:
+        img, cap, pan, ang = EV[i]
+        cw, ch = 760, 920
+        card = Image.new('RGBA', (cw + 40, ch + 140), (0, 0, 0, 0)); cd = ImageDraw.Draw(card)
+        cd.rounded_rectangle([0, 0, cw + 39, ch + 139], 28, fill=WHITE + (255,))
+        card.paste(cover(load(img), cw, ch, 1.0, pan), (20, 20), rmask((cw, ch), 18))
+        f = font('xb', 46); w = cd.textlength(cap, font=f); cd.text(((cw + 40 - w) / 2, ch + 52), cap, font=f, fill=INK)
+        _cards[i] = card.rotate(ang, Image.BICUBIC, expand=True)
+    return _cards[i]
+def s_events(t):
+    fr = grad((232, 244, 251), (240, 236, 250)); d = ImageDraw.Draw(fr)
+    kinetic(fr, ['Daha önce', 'neler yaptık?'], 250, t, 0.1, 0.18, font('blk', 84), INK, hl={'neler'}, hlc=BLUE, hl_text=WHITE)
+    text_fade(fr, (0, 470), 'Bornova Belediyesi iş birliğiyle', font('sb', 36), SOFT, (t - 0.7) / 0.4, center=True)
+    n = min(int(max(0, t - 0.6) / ESEG) + 1, len(EV))
+    for i in range(n):
+        st = 0.6 + i * ESEG; p = ease(clamp((t - st) / 0.5))
+        im = ev_card(i); s = 0.8
+        sm = im.resize((int(im.size[0] * s), int(im.size[1] * s)), Image.BICUBIC)
+        x = W / 2 - sm.size[0] / 2 + (1 - p) * 900 * (1 if i % 2 == 0 else -1)
+        y = 540 + (i % 2) * 14
+        paste_a(fr, sm, (int(x), int(y)), clamp(p * 2))
+    handle(fr, 1)
+    return fr
+
+STORIES_OLD = [('1-biz-kimiz-merhaba', s_intro, 7.0), ('2-biz-kimiz-ekibimiz', s_team, SEG * 3 + 0.4), ('3-biz-kimiz-neden-masal', s_why, 8.0),
            ('4-bir-gunumuz', s_day, DSEG * 5 + 0.6), ('5-atolyeler', s_ws, ASEG * 4 + 0.5), ('6-atolyeler-kule-ve-cark', s_kc, 10.6)]
 
 def render(name, fn, dur, spec=None):
@@ -320,6 +382,9 @@ def render(name, fn, dur, spec=None):
         ff.stdin.write(img.convert('RGB').tobytes())
     ff.stdin.close(); ff.wait()
     if ff.returncode == 0: os.replace(tmp, OUT + f'_{name}.v.mp4')
+
+STORIES = [('1-biz-kimiz-merhaba', s_intro, 7.0), ('2-biz-kimiz-neden-masal', s_why, 8.0), ('3-bir-gunumuz', s_day, DSEG * 6 + 0.6),
+           ('4-atolyeler', s_ws, ASEG * 4 + 0.5), ('5-atolyeler-surpriz-carki', s_cark, 8.8), ('6-etkinlikler-daha-once', s_events, 0.6 + ESEG * 5 + 0.9)]
 
 if __name__ == '__main__':
     if sys.argv[1] == 'preview':
