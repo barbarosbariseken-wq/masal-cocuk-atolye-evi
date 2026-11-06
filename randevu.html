@@ -177,6 +177,9 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
 (function () {
   // ---- Ayarlar: buradan kolayca değiştirilebilir ----
   var WHATSAPP = '905533412912';
+  // E-posta bildirimi (FormSubmit). İlk talepten sonra gelen "Activate Form" e-postasını onaylayın.
+  // Onaydan sonra FormSubmit'in verdiği gizli kodu buraya yazarsanız adres sayfada görünmez.
+  var BILDIRIM = 'masalcocukatolyevi@gmail.com';
   var IBAN = 'TR060006400000134890278568';
   var HOURS = ['13:00', '14:00', '15:00', '16:00', '17:00', '18:00'];
   var WEEKS_AHEAD = 4;
@@ -299,6 +302,23 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       (v('r-cocuk') ? 'Çocuk: ' + v('r-cocuk') + ' (' + $('r-yas').value + ' yaş)\n' : 'Çocuğun yaşı: ' + $('r-yas').value + '\n') +
       (v('r-not') ? '\nNot: ' + v('r-not') : '');
   }
+  function mailNotify() {
+    try {
+      var s = svc(), m = mode(), v = function (id) { return $(id).value.trim(); };
+      var data = {
+        _subject: 'Yeni randevu talebi: ' + s.title + ' · ' + st.pick.when,
+        _template: 'table', _captcha: 'false',
+        'Hizmet': s.title, 'Görüşme şekli': m.title, 'Tarih / saat': st.pick.when,
+        'Veli': v('r-veli'), 'Telefon': v('r-tel'), 'E-posta': v('r-mail') || '-',
+        'Çocuk': (v('r-cocuk') || '-') + ' (' + $('r-yas').value + ' yaş)', 'Not': v('r-not') || '-'
+      };
+      fetch('https://formsubmit.co/ajax/' + BILDIRIM, {
+        method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }).catch(function () {});
+    } catch (x) {}
+  }
   function openWA() { window.open('https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(waMessage()), '_blank'); }
 
   document.addEventListener('click', function (e) {
@@ -329,6 +349,7 @@ h2{margin:0;font-family:'Fredoka',sans-serif;font-weight:600;font-size:24px}
       $('iban-box').hidden = !(m.id === 'online' && !s.free);
       $('iban-price').textContent = s.price || '';
       openWA();
+      mailNotify();
       go(4);
     }
     else if (t.id === 'wa-again') { e.preventDefault(); openWA(); }
